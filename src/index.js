@@ -12,16 +12,20 @@ var app = (function () {
 		return Math.random();
 	}
 
+	function getData() {
+		return dataRecords;
+	}
+
 	return {
-		getData: function() {
-			return dataRecords;
-		}
+		getData: getData,
+		tests: {
+			vanilla: {},
+			angular: {},
+			react: {},
+			angularReact: {}
+		},
+		commons: {},
+		angular: {},
+		react: {}
 	};
 })();
-
-var tests = {
-	vanilla: {},
-	angular: {},
-	react: {},
-	angularReact: {}
-};
