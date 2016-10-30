@@ -1,15 +1,19 @@
 {
-  "name": "react-angular-test",
+  "name": "react-angular-performance-check",
   "version": "1.0.0",
-  "description": "",
+  "description": "Performance test for Angular & React hybrid app.",
   "main": "index.js",
+  "repository": {
+  	"type": "git",
+  	"url": "https://github.com/adamfaryna/react-angular-performance-check.git"
+  },
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.17.5"
   },
   "scripts": {
-  	"start": "browser-sync start -s --reload-delay 1000 'src' -f 'src'"
+  	"start": "browser-sync start -s 'src' -f 'src' --reload-delay 2000"
   },
-  "author": "",
+  "author": "Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)",
   "license": "ISC"
 }

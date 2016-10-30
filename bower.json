@@ -1,12 +1,19 @@
 {
-  "name": "react-angular-test",
-  "description": "",
-  "main": "index.js",
+  "name": "react-angular-performance-check",
+  "description": "Performance test for Angular & React hybrid app.",
   "authors": [
-    "Adam Faryna <adamfaryna@gmail.com>"
+  	"Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)"
+  ],
+  "keywords": [
+  	"performance",
+  	"comparison",
+  	"React",
+  	"Angular",
+  	"Vanilla",
+  	"ES5"
   ],
   "license": "ISC",
-  "homepage": "",
+  "homepage": "https://github.com/adamfaryna/react-angular-performance-check",
   "ignore": [
     "**/.*",
     "node_modules",
