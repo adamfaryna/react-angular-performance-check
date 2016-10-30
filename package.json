@@ -1,7 +1,7 @@
 {
   "name": "react-angular-performance-check",
   "version": "1.0.0",
-  "description": "Performance test for Angular & React hybrid app.",
+  "description": "Simple app that compare performance of Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid app.",
   "main": "index.js",
   "repository": {
   	"type": "git",

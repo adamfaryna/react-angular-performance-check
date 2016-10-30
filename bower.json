@@ -1,6 +1,6 @@
 {
   "name": "react-angular-performance-check",
-  "description": "Performance test for Angular & React hybrid app.",
+  "description": "Simple app that compare performance of Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid app.",
   "authors": [
   	"Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)"
   ],
