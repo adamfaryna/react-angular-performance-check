@@ -1,5 +1,6 @@
 #React Angular Performance Check
-_Application demonstrating perfomance comparison of Vanilla.js, Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid.
+
+_Application demonstrating performance comparison of Vanilla.js, Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid._
 
 ## Introduction
 
