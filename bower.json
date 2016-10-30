@@ -1,0 +1,22 @@
+{
+  "name": "react-angular-test",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Adam Faryna <adamfaryna@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "react": "^15.3.2",
+    "moment": "^2.15.2"
+  }
+}
