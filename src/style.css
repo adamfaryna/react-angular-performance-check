@@ -1,0 +1,20 @@
+.tests-container {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-around;
+	flex-wrap: no-wrap;
+	flex-direction: row;
+}
+
+ .tests-container .container {
+ 	width: 100px;
+ 	border: 1px solid;
+ 	padding: 10px;
+ }
+
+.tests-container .container .content {
+	border: 1px solid;
+	height: 200px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
