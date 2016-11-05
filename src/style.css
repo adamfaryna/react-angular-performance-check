@@ -1,13 +1,23 @@
+body header {
+	margin: auto;
+	width: 300px;
+}
+
+body header div {
+	margin: 10px;
+}
+
 .tests-container {
 	display: flex;
 	align-items: baseline;
 	justify-content: space-around;
 	flex-wrap: no-wrap;
 	flex-direction: row;
+	margin-top: 20px;
 }
 
  .tests-container .container {
- 	width: 100px;
+ 	width: 250px;
  	border: 1px solid;
  	padding: 10px;
  }
@@ -17,4 +27,19 @@
 	height: 200px;
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+#raportTable {
+	border: 1px solid;
+	margin: auto;
+	width: 1000px;
+}
+
+tbody tr td {
+	border: 1px solid;
+	padding: 5px;
+}
+
+tr.label {
+	font-weight: bold;
 }

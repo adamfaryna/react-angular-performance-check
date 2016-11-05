@@ -12,23 +12,27 @@
 		<link rel="stylesheet" href="style.css">
   </head>
   <body>
-		<div>
-			Status: <span id="appStatus"></span>
-		</div>
+  	<header>
+			<div>
+				Status: <span id="appStatus"></span>
+			</div>
 
-		<div id="testsControls" class="tests-controls">
-			<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
-				<label value="Number of tests">
-					<input type="number" name="iterationsNumber" placeholder="Put number of experiments to perform" value="30">
-				</label>
-				<button type="submit">Do Experiments!</button>
-			</form>
-		</div>
+			<div id="testsControls" class="tests-controls">
+				<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
+					<label value="Number of tests">
+						<input type="number" name="iterationsNumber" placeholder="Put number of experiments to perform" value="30">
+					</label>
+					<br>
+					<button type="submit">Do Experiments!</button>
+				</form>
+			</div>
+		</header>
 
-		<div id="raport" class="tests-report" style="display: hidden">
+		<div id="raport" class="tests-report" style="display: none;">
 			<table id="raportTable">
 			<tbody>
 				<tr class="label">
+					<td>Name</td>
 					<td>Minumum Time</td>
 					<td>Maximum Time</td>
 					<td>Average Time</td>
@@ -41,7 +45,7 @@
 			<div id="vanillaApp" class="container">
 				<div class="test">
 					<header>
-						<h2>Vanilla JS</h2>
+						<h2>Vanilla.js</h2>
 					</header>
 				</div>
 				<div class="controls">
