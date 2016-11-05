@@ -1,4 +1,5 @@
 var app = (function () {
+	var appStatus = document.getElementById('appStatus');
 	var dataRecordsSize = 10000;
 	var dataRecords = new Array(dataRecordsSize);
 
@@ -6,7 +7,7 @@ var app = (function () {
 		dataRecords[i] = genData();
 	}
 
-	document.getElementById('appStatus').innerHTML = 'Data Ready!';
+	appStatus.innerHTML = 'Data Ready!';
 
 	function genData() {
 		return Math.random();
@@ -18,13 +19,8 @@ var app = (function () {
 
 	return {
 		getData: getData,
-		tests: {
-			vanilla: {},
-			angular: {},
-			react: {},
-			angularReact: {}
-		},
-		commons: {},
+		tests: {},
+		common: {},
 		angular: {},
 		react: {}
 	};

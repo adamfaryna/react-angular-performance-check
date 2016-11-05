@@ -16,6 +16,27 @@
 			Status: <span id="appStatus"></span>
 		</div>
 
+		<div id="testsControls" class="tests-controls">
+			<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
+				<label value="Number of tests">
+					<input type="number" name="iterationsNumber" placeholder="Put number of experiments to perform" value="30">
+				</label>
+				<button type="submit">Do Experiments!</button>
+			</form>
+		</div>
+
+		<div id="raport" class="tests-report" style="display: hidden">
+			<table id="raportTable">
+			<tbody>
+				<tr class="label">
+					<td>Minumum Time</td>
+					<td>Maximum Time</td>
+					<td>Average Time</td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+
 		<div class="tests-container">
 			<div id="vanillaApp" class="container">
 				<div class="test">
@@ -24,7 +45,7 @@
 					</header>
 				</div>
 				<div class="controls">
-					<button onclick="app.tests.vanilla.runTest()">Run Test</button>
+					<button onclick="app.tests.vanilla.run()">Run Test</button>
 				</div>
 				<div class="results">
 					time: <span class="test-time"></span>
@@ -39,14 +60,14 @@
 					</header>
 				</div>
 				<div class="controls">
-					<button ng-click="ctrl.runTest()">Run Test</button>
+					<button ng-click="ctrl.run()">Run Test</button>
 				</div>
 				<div class="results">
 					<span>time: {{ctrl.data.testTime}}</span>
 				</div>
 				<div class="content" ng-hide="ctrl.data.records.length"></div>
 				<div class="content" ng-show="ctrl.data.records.length">
-					<div ng-repeat="record in ctrl.data.records track by $index" on-finish="finished!">
+					<div ng-repeat="record in ctrl.data.records track by $index" on-finish="finished">
 						<div>{{record}}</div>
 					</div>
 				</div>
@@ -59,7 +80,7 @@
 					</header>
 				</div>
 				<div class="controls">
-					<button onclick="app.tests.react.runTest()">Run Test</button>
+					<button onclick="app.tests.react.run()">Run Test</button>
 				</div>
 				<div class="results">
 					time: <span class="test-time"></span>
@@ -74,7 +95,7 @@
 					</header>
 				</div>
 				<div class="controls">
-					<button ng-click="ctrl.runTest()">Run Test</button>
+					<button ng-click="ctrl.run()">Run Test</button>
 				</div>
 				<div class="results">
 					<span>time: {{data.testTime}}</span>
@@ -87,9 +108,11 @@
 		<script src="commons.js"></script>
 		<script src="commons/angular/onFinish.js"></script>
 		<script src="commons/react/testComponent.js"></script>
+		<script src="tests/basicTest.js"></script>
 		<script src="tests/vanillaTest.js"></script>
 		<script src="tests/angularTest.js"></script>
 		<script src="tests/reactTest.js"></script>
 		<script src="tests/angularReactTest.js"></script>
+		<script src="tests/batch.js"></script>
   </body>
 </html>

@@ -1,37 +1,51 @@
 app.tests.vanilla = (function () {
+	var name = 'Vanilla.js';
 	var rootElementId = 'vanillaApp';
-	var collectionRootElement = app.common.getCollectionRootElement(rootElementId);
-	var testTimeElement = app.common.getTestTimeElement(rootElementId);
+	var common = app.common;
+	var collectionRootElement = common.getCollectionRootElement(rootElementId);
+	var testTimeElement = common.getTestTimeElement(rootElementId);
 
-	var cleanTest = function () {
-		while (collectionRootElement.hasChildNodes()) {
-			collectionRootElement.removeChild(collectionRootElement.firstChild);
-		}
+	function VanillaTest() {
+		var self = this;
+		this.name = name;	
+		
+		this.clean = function () {
+			VanillaTest.prototype.clean.apply(self);
 
-		testTimeElement.innerHTML = '';
-	};
+			while (collectionRootElement.firstChild) {
+				collectionRootElement.removeChild(collectionRootElement.firstChild);
+			}
 
-	return {
-		runTest: function () {
-			cleanTest();
+			testTimeElement.innerHTML = '';
+		};
 
-			setTimeout(function () {
-				var data = app.getData();
-				startTime = Date.now();
-				var fragment = document.createDocumentFragment()
-				
-				for (var i = 0; i !== data.length; i++) {
-					var div = document.createElement('div')
-					div.innerHTML = data[i];
-					fragment.appendChild(div);
-				}
-				
-				collectionRootElement.appendChild(fragment);
+		this.run = function() {
+			return new Promise(function (resolve) {
+				this.clean();
 
-				var endTime = Date.now();
-				var testTime = app.common.formatTestTime(startTime, endTime);
-				testTimeElement.innerHTML = testTime;
-			}, 1000);
-		}
-	};
+				setTimeout(function () {
+					var data = app.getData();
+					startTime = Date.now();
+					var fragment = document.createDocumentFragment()
+					
+					for (var i = 0; i !== data.length; i++) {
+						var div = document.createElement('div')
+						div.innerHTML = data[i];
+						fragment.appendChild(div);
+					}
+					
+					collectionRootElement.appendChild(fragment);
+
+					var endTime = Date.now();
+					var testTime = common.calculateTestTime(startTime, endTime);
+					self.raports.push(testTime);
+					testTimeElement.innerHTML = common.formatTestTime(testTime);
+					resolve();
+				}, 50);
+			};
+		);
+	}}
+
+	VanillaTest.prototype = new app.Basic();
+	return new VanillaTest();
 })();

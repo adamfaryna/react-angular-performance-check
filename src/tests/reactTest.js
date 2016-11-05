@@ -1,4 +1,5 @@
 app.tests.react = (function () {
+	var name = 'React.js';
 	var rootElementId = 'reactApp';
 	var TestComponent = app.react.TestComponent;
 	var rootElement = document.getElementById(rootElementId);
@@ -7,28 +8,45 @@ app.tests.react = (function () {
 	var startTime = null;
 	var testTime = '';
 
-	rootElement.addEventListener(rootElementId, function (e) {
-		testTimeElement.innerHTML = e.detail.testTime;	
-	});
+	function ReactTest() {
+		var self = this;
+		this.name = name;
+		this.run = function() {
+			return new Promise(function (resolve) {
+				this.clean();
 
-	var renderElement = function (data) {
-		ReactDOM.render(React.createElement(TestComponent, {data: data, rootId: rootElementId}), collectionRootElement);
-	};
+				setTimeout(function () {
+					var eventHandler = function(e) {
+						rootElement.removeEventListener(rootElementId, eventHandler);
+						self.raports.push(e.detail.testTime);
+						testTimeElement.innerHTML = app.common.formatTestTime(e.detail.testTime);
+						resolve();
+					}
 
-	var cleanTest = function() {
-		startTime = null;
-		testTime = '';
-		testTimeElement.innerHTML = '';
-		renderElement([]);
+					rootElement.addEventListener(rootElementId, eventHandler);
+					self.renderElement(app.getData());
+				}, 50);
+			});
+		};
+
+		this.clean = function() {
+			ReactTest.prototype.clean.apply(self);
+			startTime = null;
+			testTime = '';
+			testTimeElement.innerHTML = '';
+			this.renderElement([]);
+		};
+
+		this.renderElement = function (data) {
+			ReactDOM.render(React.createElement(TestComponent, {data: data, rootId: rootElementId}), collectionRootElement);
+		};
+
+		rootElement.addEventListener(rootElementId, function (e) {
+			self.raports.push(e.detail.testTime);
+			testTimeElement.innerHTML = app.common.formatTestTime(e.detail.testTime);
+		});
 	}
 
-	return {
-		runTest: function() {
-			cleanTest();
-
-			setTimeout(function () {
-				renderElement(app.getData());
-			}, 1000);
-		}
-	};
+	ReactTest.prototype = new app.Basic();
+	return new ReactTest();
 })();

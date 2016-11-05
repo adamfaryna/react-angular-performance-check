@@ -11,18 +11,18 @@ app.react.TestComponent = React.createClass({
 	},
 
 	componentDidUpdate: function() {
-		if (started) {
+		if (this.state.started) {
 			var endTime = Date.now();
-			testTime = app.common.formatTestTime(startTime, endTime);
+			var testTime = app.common.calculateTestTime(startTime, endTime);
 			var event = new CustomEvent(this.props.rootId, {detail: {testTime: testTime}});
 			document.getElementById(this.props.rootId).dispatchEvent(event);
-			started = false;
+			this.state.started = false;
 		}
 	},
 
 	render: function() {
 		if (this.props.data.length) {
-			started = true;
+			this.state.started = true;
 			startTime = Date.now();
 		}
 
