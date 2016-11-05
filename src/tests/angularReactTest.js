@@ -1,21 +1,42 @@
-(function () {
+app.tests.angularReact = (function () {
 	var name = 'Angular.js & React.js';
 	var rootElementId = 'angularReactApp';
 	var common = app.common;
 	var TestComponent = app.react.TestComponent;
 	var rootElement = document.getElementById('angularReactApp');
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
+	var cleanListener = rootElementId + 'clean';
+	var runListener = rootElementId + 'run';
+	var resultListener = rootElementId + 'result';
 		
 	function AngularReactTest() {
 		var self = this;
-		
 		this.name = name;
-		this.run = function (callback) {
-			scope.$emit('run');
-			scope.$on('done', function () {
-				if (callback) {
-					callback();
-				}
+		var scope;
+
+		this.run = function () {
+			return new Promise(function (resolve) {
+				var eventHandler = function (e) {
+					rootElement.removeEventListener(runListener, eventHandler);
+					e.preventDefault();
+					resolve();
+				};
+
+				rootElement.addEventListener(runListener, eventHandler);
+				scope.$emit('run');
+			});
+		};
+
+		this.clean = function () {
+			return new Promise(function (resolve) {
+				var eventHandler = function() {
+					rootElement.removeEventListener(cleanListener, eventHandler);
+					e.preventDefault();
+					resolve();
+				};
+
+				rootElement.addEventListener(cleanListener, eventHandler);
+				scope.$emit('clean');
 			});
 		};
 
@@ -25,8 +46,7 @@
 			.controller('mainController', MainController);
 
 		MainController.$inject = ['$scope', '$timeout'];
-		var scope;
-
+		
 		function MainController($scope, $timeout) {
 			var vm = this;
 			scope = $scope;
@@ -39,33 +59,30 @@
 			};
 
 			vm.run = function () {
-				return new Promise(function(resolve) {
-					vm.clean();
-
-					$timeout(function () {
+				vm.clean()
+					.then(function () {
 						var eventHandler = function(e) {
-							rootElement.removeEventListener('inner', eventHandler);		
-
-							$timeout(function () {
-								self.raports.push(e.detail.testTime);
-								$scope.data.testTime = common.formatTestTime(e.detail.testTime);
-								resolve();
-							});
+							rootElement.removeEventListener(resultListener, eventHandler);
+							e.preventDefault();
+							self.raports.push(e.detail.testTime);
+							$scope.data.testTime = common.formatTestTime(e.detail.testTime);
+							rootElement.dispatchEvent(new CustomEvent(runListener));
 						};
 
-						rootElement.addEventListener('inner', eventHandler);
-						$scope.data.startTime = Date.now();
-						$scope.data.records = app.getData();			
+						rootElement.addEventListener(resultListener, eventHandler);
+
+						$timeout(function () {
+							$scope.data.startTime = Date.now();
+							$scope.data.records = app.getData();
+						});
 					});
-				});
 			};
 
 			$scope.$watchCollection('data.records', function (records) {
 				var eventHandler = function(e) {
-					rootElement.removeEventListener(rootElementId, eventHandler);		
-
-					var event = new CustomEvent('inner', e);
-					rootElement.dispatchEvent(event);
+					rootElement.removeEventListener(rootElementId, eventHandler);
+					e.preventDefault();		
+					rootElement.dispatchEvent(new CustomEvent(resultListener, e));
 				};
 
 				rootElement.addEventListener(rootElementId, eventHandler);
@@ -78,13 +95,25 @@
 			  ReactDOM.unmountComponentAtNode(collectionRootElement);
 			});
 
+			$scope.$on('run', function () {
+				vm.run();
+			});
+
+			$scope.$on('clean', function () {
+				vm.clean();
+			});
+
 			vm.clean = function () {
-				AngularReactTest.prototype.clean.apply(self);
-				$scope.data.startTime = '';
-				$scope.data.endTime = '';
-				$scope.data.testTime = '';
-				$scope.data.records = [];
-			}
+				return new Promise(function (resolve) {
+					$timeout(function () {
+						$scope.data.startTime = '';
+						$scope.data.endTime = '';
+						$scope.data.testTime = '';
+						$scope.data.records = [];
+						resolve();
+					});
+				});
+			};
 		}
 
 		angular.bootstrap(rootElement, ['angularReactApp']);

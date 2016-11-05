@@ -1,6 +1,7 @@
 app.batch = (function () {
 	var common = app.common;
-	var raportBody = raportTable.querySelector('#raportTable tbody');
+	var raport = document.getElementById('raport');
+	var raportBody = raport.querySelector('#raportTable tbody');
 
 	function cleanReport() {
 		var elements = raportBody.getElementsByTagName('tr');
@@ -22,58 +23,51 @@ app.batch = (function () {
 		showReport();
 
 		var iterationsNumber = parseInt(form.getElementsByTagName('input').namedItem('iterationsNumber').value);
-
-		// var callQueue = [];
-
-		var promise = new Promise(function (resolve) {
-			setTimeout(resolve, iterationsNumber * Object.keys(app.tests).length * 200);
-		});
+		var promise = Promise.resolve();
 
 		Object.keys(app.tests).forEach(function (key) {
 			var experiment = app.tests[key];
 			experiment.clean();
 
 			for (var i = 0; i !== iterationsNumber; i++) {
-				// callQueue.push(experiment.run); 
-				// experiment.run();
 				promise = promise.then(experiment.run);
 			}
 
 			promise = promise.then(printRaport(experiment))
-
-			// printRaport(experiment);
 		});
 
-		return promise.then(showReport);
+		return promise;
 	}
 	
 	function printRaport(experiment) {
-		return new Promise(function (resolve) {
-			var tr = document.createElement('tr');
+		return function () {
+			return new Promise(function (resolve) {
+				var tr = document.createElement('tr');
 
-			var nameColumn = document.createElement('td');
-			nameColumn.appendChild(document.createTextNode(experiment.name));
+				var nameColumn = document.createElement('td');
+				nameColumn.appendChild(document.createTextNode(experiment.name));
 
-			var minColumn = document.createElement('td');
-			minColumn.appendChild(document.createTextNode(common.getExperimentMin(experiment)));
+				var minColumn = document.createElement('td');
+				minColumn.appendChild(document.createTextNode(common.getExperimentMin(experiment)));
 
-			var maxColumn = document.createElement('td');
-			maxColumn.appendChild(document.createTextNode(common.getExperimentMax(experiment)));
+				var maxColumn = document.createElement('td');
+				maxColumn.appendChild(document.createTextNode(common.getExperimentMax(experiment)));
 
-			var avgColumn = document.createElement('td');
-			avgColumn.appendChild(document.createTextNode(common.getExperimentAvg(experiment)));
+				var avgColumn = document.createElement('td');
+				avgColumn.appendChild(document.createTextNode(common.getExperimentAvg(experiment)));
 
-			tr.appendChild(nameColumn);
-			tr.appendChild(minColumn);
-			tr.appendChild(maxColumn);
-			tr.appendChild(avgColumn);
-			raportBody.appendChild(tr);
-			resolve();
-		});
+				tr.appendChild(nameColumn);
+				tr.appendChild(minColumn);
+				tr.appendChild(maxColumn);
+				tr.appendChild(avgColumn);
+				raportBody.appendChild(tr);
+				resolve();
+			});
+		};
 	}
 
 	function showReport() {
-		raportBody.setAttribute('style', 'display: block');
+		raport.setAttribute('style', 'display: block');
 	}
 
 	return {

@@ -8,7 +8,7 @@ app.Basic = (function () {
 	}
 
 	BasicTest.prototype.clean = function clean() {
-		this.raports = [];
+		throw new Error('Method not defined!');
 	};
 
 	return BasicTest;

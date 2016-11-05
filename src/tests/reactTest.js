@@ -13,28 +13,30 @@ app.tests.react = (function () {
 		this.name = name;
 		this.run = function() {
 			return new Promise(function (resolve) {
-				this.clean();
+				self.clean()
+					.then(function () {
+						var eventHandler = function (e) {
+							rootElement.removeEventListener(rootElementId, eventHandler);
+							e.preventDefault();
+							self.raports.push(e.detail.testTime);
+							testTimeElement.innerHTML = app.common.formatTestTime(e.detail.testTime);
+							resolve();
+						};
 
-				setTimeout(function () {
-					var eventHandler = function(e) {
-						rootElement.removeEventListener(rootElementId, eventHandler);
-						self.raports.push(e.detail.testTime);
-						testTimeElement.innerHTML = app.common.formatTestTime(e.detail.testTime);
-						resolve();
-					}
-
-					rootElement.addEventListener(rootElementId, eventHandler);
-					self.renderElement(app.getData());
-				}, 50);
+						rootElement.addEventListener(rootElementId, eventHandler);
+						self.renderElement(app.getData());
+					});
 			});
 		};
 
 		this.clean = function() {
-			ReactTest.prototype.clean.apply(self);
-			startTime = null;
-			testTime = '';
-			testTimeElement.innerHTML = '';
-			this.renderElement([]);
+			return new Promise(function (resolve) {
+				startTime = null;
+				testTime = '';
+				testTimeElement.innerHTML = '';
+				self.renderElement([]);
+				resolve();
+			});
 		};
 
 		this.renderElement = function (data) {
