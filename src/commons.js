@@ -12,9 +12,9 @@ app.common = {
 		return document.querySelector('#' + rootId + ' .content');
 	},
 	getExperimentAvg: function(experiment) {
-		return experiment.raports.reduce(function (a, b) {
+		return (experiment.raports.reduce(function (a, b) {
 			return a + b;
-		}, 0) / experiment.raports.length;
+		}, 0) / experiment.raports.length).toFixed(2);
 	},
 	getExperimentMin: function(experiment) {
 		return experiment.raports.reduce(function (a, b) {

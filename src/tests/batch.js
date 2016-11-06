@@ -48,20 +48,21 @@ app.batch = (function () {
 				nameColumn.appendChild(document.createTextNode(experiment.name));
 
 				var minColumn = document.createElement('td');
-				minColumn.appendChild(document.createTextNode(common.getExperimentMin(experiment)));
+				minColumn.appendChild(document.createTextNode(common.getExperimentMin(experiment) + 'ms'));
 
 				var maxColumn = document.createElement('td');
-				maxColumn.appendChild(document.createTextNode(common.getExperimentMax(experiment)));
+				maxColumn.appendChild(document.createTextNode(common.getExperimentMax(experiment) + 'ms'));
 
 				var avgColumn = document.createElement('td');
-				avgColumn.appendChild(document.createTextNode(common.getExperimentAvg(experiment)));
+				avgColumn.appendChild(document.createTextNode(common.getExperimentAvg(experiment) + 'ms'));
 
 				tr.appendChild(nameColumn);
 				tr.appendChild(minColumn);
 				tr.appendChild(maxColumn);
 				tr.appendChild(avgColumn);
 				raportBody.appendChild(tr);
-				resolve();
+
+				setTimeout(resolve, 50);
 			});
 		};
 	}
