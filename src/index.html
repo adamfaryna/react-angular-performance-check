@@ -9,6 +9,7 @@
 		<script src="bower_components/react/react.js"></script>
 		<script src="bower_components/react/react-dom.min.js"></script>
 		<script src="bower_components/moment/min/moment.min.js"></script>
+		<link rel="stylesheet" href="bower_components/skeleton/css/skeleton.css">
 		<link rel="stylesheet" href="style.css">
   </head>
   <body>
@@ -19,6 +20,9 @@
 
 			<div id="testsControls" class="tests-controls">
 				<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
+					<label value="Data Set Size">
+						<input type="number" name="dataSetSize" placeholder="Put data set size ex. 10000">
+					</label>
 					<label value="Number of tests">
 						<input type="number" name="iterationsNumber" placeholder="Put number of experiments to perform" value="30">
 					</label>
@@ -110,13 +114,13 @@
 
 		<script src="index.js"></script>
 		<script src="commons.js"></script>
-		<script src="commons/angular/onFinish.js"></script>
-		<script src="commons/react/testComponent.js"></script>
-		<script src="tests/basicTest.js"></script>
-		<script src="tests/vanillaTest.js"></script>
-		<script src="tests/angularTest.js"></script>
-		<script src="tests/reactTest.js"></script>
-		<script src="tests/angularReactTest.js"></script>
-		<script src="tests/batch.js"></script>
+		<script src="angular/onFinish.js"></script>
+		<script src="react/experimentComponent.js"></script>
+		<script src="experiments/basicExperiment.js"></script>
+		<script src="experiments/vanillaExperiment.js"></script>
+		<script src="experiments/angularExperiment.js"></script>
+		<script src="experiments/reactExperiment.js"></script>
+		<script src="experiments/angularReactExperiment.js"></script>
+		<script src="experiments/batch.js"></script>
   </body>
 </html>

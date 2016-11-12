@@ -1,4 +1,4 @@
-app.tests.angular = (function () {
+app.experiments.angular = (function () {
 	var name = 'Angular.js';
 	var rootElementId = 'angularApp';
 	var common = app.common;
@@ -7,7 +7,7 @@ app.tests.angular = (function () {
 	var runListener = rootElementId + 'run';
 
 
-	function AngularTest() {
+	function AngularExperiment() {
 		var self = this;
 		var scope;
 		this.name = name;
@@ -98,6 +98,6 @@ app.tests.angular = (function () {
 		angular.bootstrap(rootElement, ['angularApp']);
 	}	
 
-	AngularTest.prototype = new app.Basic();
-	return new AngularTest();
+	AngularExperiment.prototype = new app.BasicExperiment();
+	return new AngularExperiment();
 })();

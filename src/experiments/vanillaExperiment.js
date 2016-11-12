@@ -1,11 +1,11 @@
-app.tests.vanilla = (function () {
+app.experiments.vanilla = (function () {
 	var name = 'Vanilla.js';
 	var rootElementId = 'vanillaApp';
 	var common = app.common;
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
 
-	function VanillaTest() {
+	function VanillaExperiment() {
 		var self = this;
 		this.name = name;	
 		
@@ -46,6 +46,6 @@ app.tests.vanilla = (function () {
 		};
 	}
 
-	VanillaTest.prototype = new app.Basic();
-	return new VanillaTest();
+	VanillaExperiment.prototype = new app.BasicExperiment();
+	return new VanillaExperiment();
 })();

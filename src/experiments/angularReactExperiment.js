@@ -1,15 +1,15 @@
-app.tests.angularReact = (function () {
+app.experiments.angularReact = (function () {
 	var name = 'Angular.js & React.js';
 	var rootElementId = 'angularReactApp';
 	var common = app.common;
-	var TestComponent = app.react.TestComponent;
+	var ExperimentComponent = app.react.ExperimentComponent;
 	var rootElement = document.getElementById('angularReactApp');
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var cleanListener = rootElementId + 'clean';
 	var runListener = rootElementId + 'run';
 	var resultListener = rootElementId + 'result';
 		
-	function AngularReactTest() {
+	function AngularReactExperiment() {
 		var self = this;
 		this.name = name;
 		var scope;
@@ -87,7 +87,7 @@ app.tests.angularReact = (function () {
 
 				rootElement.addEventListener(rootElementId, eventHandler);
 
-				var component = React.createElement(TestComponent, {data: records || [], rootId: rootElementId});
+				var component = React.createElement(ExperimentComponent, {data: records || [], rootId: rootElementId});
 				ReactDOM.render(component, collectionRootElement);
 			});
 
@@ -119,6 +119,6 @@ app.tests.angularReact = (function () {
 		angular.bootstrap(rootElement, ['angularReactApp']);
 	}
 
-	AngularReactTest.prototype = new app.Basic();
-	return new AngularReactTest();
+	AngularReactExperiment.prototype = new app.BasicExperiment();
+	return new AngularReactExperiment();
 })();

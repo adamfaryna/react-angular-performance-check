@@ -1,15 +1,15 @@
-app.tests.react = (function () {
+app.experiments.react = (function () {
 	var name = 'React.js';
 	var rootElementId = 'reactApp';
 	var common = app.common;
-	var TestComponent = app.react.TestComponent;
+	var ExperimentComponent = app.react.ExperimentComponent;
 	var rootElement = document.getElementById(rootElementId);
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var startTime = null;
 	var testTime = '';
 
-	function ReactTest() {
+	function ReactExperiment() {
 		var self = this;
 		this.name = name;
 		this.run = function() {
@@ -48,12 +48,12 @@ app.tests.react = (function () {
 		};
 
 		this.renderElement = function (data) {
-			ReactDOM.render(React.createElement(TestComponent, {data: data, rootId: rootElementId}), collectionRootElement);
+			ReactDOM.render(React.createElement(ExperimentComponent, {data: data, rootId: rootElementId}), collectionRootElement);
 		};
 
 		this.clean();
 	}
 
-	ReactTest.prototype = new app.Basic();
-	return new ReactTest();
+	ReactExperiment.prototype = new app.BasicExperiment();
+	return new ReactExperiment();
 })();

@@ -2,15 +2,15 @@
   "name": "react-angular-performance-check",
   "description": "Simple app that compare performance of Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid app.",
   "authors": [
-  	"Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)"
+    "Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)"
   ],
   "keywords": [
-  	"performance",
-  	"comparison",
-  	"React",
-  	"Angular",
-  	"Vanilla",
-  	"ES5"
+    "performance",
+    "comparison",
+    "React",
+    "Angular",
+    "Vanilla",
+    "ES5"
   ],
   "license": "ISC",
   "homepage": "https://github.com/adamfaryna/react-angular-performance-check",
@@ -24,6 +24,7 @@
   "dependencies": {
     "angular": "^1.5.8",
     "react": "^15.3.2",
-    "moment": "^2.15.2"
+    "moment": "^2.15.2",
+    "skeleton": "^2.0.4"
   }
 }

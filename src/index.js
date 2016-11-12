@@ -19,8 +19,7 @@ var app = (function () {
 
 	return {
 		getData: getData,
-		tests: {},
-		common: {},
+		experiments: {},
 		angular: {},
 		react: {}
 	};

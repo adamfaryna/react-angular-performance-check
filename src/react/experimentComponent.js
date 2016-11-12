@@ -1,4 +1,4 @@
-app.react.TestComponent = (function () {
+app.react.ExperimentComponent = (function () {
 	var startTime;
 
 	return React.createClass({
