@@ -6,26 +6,28 @@ app.batch = (function () {
 	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
 
 	function cleanReport() {
-		var elements = raportBody.getElementsByTagName('tr');
+		return new Promise(function (resolve) {
+			var elements = raportBody.getElementsByTagName('tr');
 
-		for (var i = 0; i !== elements.length; i++) {
-			var element = elements.item(0);
-			if (element.className !== 'label') {
-				element.parentNode.removeChild(element);
+			while(raportBody.children.length !== 0) {
+				raportBody.removeChild(raportBody.children[0]);
 			}
-		}
 
-		Object.keys(app.experiments).forEach(function (key) {
-			app.experiments[key].clean();
+			Object.keys(app.experiments).forEach(function (key) {
+				app.experiments[key].clean();
+			});
+
+			setTimeout(resolve, 50);
 		});
 	}
 
 	function performExperiments() {
-		cleanReport();
-		showReport();
-		
 		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : 30;
-		var promise = app.showProgressBar().then(app.prepareDataSet);
+
+		var promise = cleanReport()
+			.then(showReport)
+			.then(app.showProgressBar)
+			.then(app.prepareDataSet);
 
 		Object.keys(app.experiments).forEach(function (key) {
 			var experiment = app.experiments[key];
@@ -70,10 +72,14 @@ app.batch = (function () {
 	}
 
 	function showReport() {
-		raport.setAttribute('style', 'display: block');
+		return new Promise(function (resolve) {
+			raport.show();
+			setTimeout(resolve, 50);
+		});
 	}
 
 	return {
-		run: performExperiments
+		run: performExperiments,
+		cleanReport: cleanReport
 	};
 })();
