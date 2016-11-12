@@ -1,5 +1,5 @@
 app.experiments.vanilla = (function () {
-	var name = 'Vanilla.js';
+	var name = 'Vanilla';
 	var rootElementId = 'vanillaApp';
 	var common = app.common;
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);

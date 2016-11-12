@@ -1,7 +1,9 @@
 app.batch = (function () {
 	var common = app.common;
+	var form = document.getElementById('form');
 	var raport = document.getElementById('raport');
 	var raportBody = raport.querySelector('#raportTable tbody');
+	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
 
 	function cleanReport() {
 		var elements = raportBody.getElementsByTagName('tr');
@@ -13,30 +15,30 @@ app.batch = (function () {
 			}
 		}
 
-		Object.keys(app.tests).forEach(function (key) {
-			app.tests[key].clean();
+		Object.keys(app.experiments).forEach(function (key) {
+			app.experiments[key].clean();
 		});
 	}
 
-	function performExperiments(form) {
+	function performExperiments() {
 		cleanReport();
 		showReport();
+		
+		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : 30;
+		var promise = app.showProgressBar().then(app.prepareDataSet);
 
-		var iterationsNumber = parseInt(form.getElementsByTagName('input').namedItem('iterationsNumber').value);
-		var promise = Promise.resolve();
-
-		Object.keys(app.tests).forEach(function (key) {
-			var experiment = app.tests[key];
+		Object.keys(app.experiments).forEach(function (key) {
+			var experiment = app.experiments[key];
 			experiment.clean();
 
-			for (var i = 0; i !== iterationsNumber; i++) {
+			for (var i = 0; i !== iterationsNumberVal; i++) {
 				promise = promise.then(experiment.run);
 			}
 
 			promise = promise.then(printRaport(experiment))
 		});
 
-		return promise;
+		return promise.then(app.hideProgressBar);
 	}
 	
 	function printRaport(experiment) {

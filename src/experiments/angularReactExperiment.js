@@ -1,5 +1,5 @@
 app.experiments.angularReact = (function () {
-	var name = 'Angular.js & React.js';
+	var name = 'Angular & React';
 	var rootElementId = 'angularReactApp';
 	var common = app.common;
 	var ExperimentComponent = app.react.ExperimentComponent;

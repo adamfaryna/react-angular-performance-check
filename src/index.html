@@ -21,7 +21,7 @@
 			<div class="row">
 				<div class="columns three">&nbsp;</div>
 				<div id="testsControls" class="tests-controls columns six">
-					<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
+					<form id="form" action="#" onsubmit="return false;">
 						<div>
 							<label for="dataSetSize">Data set size:</label>
 							<input type="number" id="dataSetSize" placeholder="Put fixed number here ex. 10000">
@@ -30,24 +30,28 @@
 							<label for="iterationsNumber">Number of tests:</label>
 							<input type="number" id="iterationsNumber" placeholder="Put fixed number here ex. 30">
 						</div>
+						<div class="log"></div>
 						<div class="buttons">
-							<button type="submit" class="button-primary">Do Experiments!</button>
+							<button type="submit" class="button-primary" onclick="app.prepareDataSet();">Create Data Set</button>
+							<button type="submit" class="button-primary" onclick="app.batch.run();">Do Experiments!</button>
 						</div>
 					</form>
 				</div>
 				<div class="columns three">&nbsp;</div>
 			</div>
 
-			<div id="raport" class="tests-report row column one" style="display: none;">
-				<table id="raportTable">
-					<thead>
-						<th>Name</th>
-						<th>Minumum Time</th>
-						<th>Maximum Time</th>
-						<th>Average Time</th>
-					</thead>
-					<tbody></tbody>
-				</table>
+			<div id="raport" class="tests-report row" style="display: hidden;">
+				<div class="column one">
+					<table id="raportTable">
+						<thead>
+							<th>Name</th>
+							<th>Minumum Time</th>
+							<th>Maximum Time</th>
+							<th>Average Time</th>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
 			</div>
 
 			<div class="experiments-container container row">
@@ -57,7 +61,7 @@
 					</div>
 					<div class="context">
 						<div class="controls">
-							<button class="button-primary" onclick="app.tests.vanilla.run()">Run Test</button>
+							<button class="button-primary" onclick="app.experiments.vanilla.run()">Run Test</button>
 						</div>
 						<div class="results">
 							Result: <span class="test-time"></span>
@@ -92,7 +96,7 @@
 					</div>
 					<div class="context">
 						<div class="controls">
-							<button class="button-primary" onclick="app.tests.react.run()">Run Test</button>
+							<button class="button-primary" onclick="app.experiments.react.run()">Run Test</button>
 						</div>
 						<div class="results">
 							Result: <span class="test-time"></span>
@@ -120,6 +124,17 @@
 			<div id="footer" class="row">
 				<div class="columns twelve">
 					Made by Appdy.net
+				</div>
+			</div>
+		</div>
+
+		<div id="progressBar" class="hidden">
+			<div class="shadow-pane">
+				<div class="box">
+					<img src="loading-icon.gif">
+					<div>
+						<span>Please wait...</span>
+					</div>
 				</div>
 			</div>
 		</div>

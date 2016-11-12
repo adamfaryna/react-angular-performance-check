@@ -1,5 +1,5 @@
 app.experiments.angular = (function () {
-	var name = 'Angular.js';
+	var name = 'Angular';
 	var rootElementId = 'angularApp';
 	var common = app.common;
 	var rootElement = document.getElementById(rootElementId);

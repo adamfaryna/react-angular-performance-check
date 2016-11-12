@@ -1,5 +1,5 @@
 app.experiments.react = (function () {
-	var name = 'React.js';
+	var name = 'React';
 	var rootElementId = 'reactApp';
 	var common = app.common;
 	var ExperimentComponent = app.react.ExperimentComponent;
