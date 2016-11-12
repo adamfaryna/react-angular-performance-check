@@ -1,32 +1,105 @@
-body header {
-	margin: auto;
-	width: 300px;
+* {
+	letter-spacing: .1rem;
 }
 
-body header div {
+h1 {
+	font-size: 4rem;
+}
+
+div {
+	border-radius: 4px;
+}
+
+body .container {
+	width: 100%;
+}
+
+#header {
+	text-align: center;
+	width: 100%;
+}
+
+#header div {
 	margin: 10px;
 }
 
-.tests-container {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-around;
-	flex-wrap: no-wrap;
-	flex-direction: row;
+#testsControls {
+	border: 1px solid;
+	// width: 425px;
+	// display: inline-block;
+}
+
+#testsControls form {
+	padding: 15px 15px 0 15px;
+	overflow: auto;
+	margin-bottom: 0px;
+}
+
+#testsControls form div {
+	overflow: auto;
+}
+
+#testsControls form label {
+	float: left;
+	margin-top: 5px;
+}
+
+#testsControls form input {
+	width: 230px;
+	float: right;
+}
+
+#testsControls form .buttons {
+	text-align: center;
+	clear: both;
+}
+
+.experiments-container {
+	// display: flex;
+	// align-items: baseline;
+	// justify-content: space-around;
+	// flex-wrap: no-wrap;
+	// flex-direction: row;
 	margin-top: 20px;
 }
 
- .tests-container .container {
- 	width: 250px;
+.experiments-container .experiment {
  	border: 1px solid;
- 	padding: 10px;
+ 	background: #EEE;
+ 	letter-spacing: .1rem;
+ 	border-radius: 4px;
  }
 
-.tests-container .container .content {
+.experiments-container .experiment .header {
+	text-align: center;
+	width: 100%;
+	background: #59d809;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.experiments-container .experiment .header h3 {
+	font-size: 22px;
+	padding: 5px 0;
+	color: #FFF;
+	letter-spacing: .2rem;
+	border-bottom: 1px solid #000;
+ }
+
+.experiments-container .experiment .context {
+	padding: 0 10px 10px 10px;
+}
+
+.experiments-container .experiment .context .controls {
+	text-align: center;
+}
+
+.experiments-container .experiment .context .content {
 	border: 1px solid;
 	height: 200px;
 	overflow-x: hidden;
 	overflow-y: scroll;
+	background: #FFF;
 }
 
 #raportTable {
@@ -42,4 +115,9 @@ tbody tr td {
 
 tr.label {
 	font-weight: bold;
+}
+
+#footer {
+	text-align: center;
+	margin-top: 15px;
 }

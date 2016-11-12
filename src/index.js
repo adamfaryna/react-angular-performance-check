@@ -1,13 +1,12 @@
 var app = (function () {
-	var appStatus = document.getElementById('appStatus');
+	var testsControls = document.getElementById('testsControls');
+
 	var dataRecordsSize = 10000;
 	var dataRecords = new Array(dataRecordsSize);
 
 	for (var i = 0; i !== dataRecordsSize; i++) {
 		dataRecords[i] = genData();
 	}
-
-	appStatus.innerHTML = 'Data Ready!';
 
 	function genData() {
 		return Math.random();

@@ -13,102 +13,114 @@
 		<link rel="stylesheet" href="style.css">
   </head>
   <body>
-  	<header>
-			<div>
-				Status: <span id="appStatus"></span>
+		<div class="container">
+			<div id="header" class="row column one">
+				<h1>Javascript Frameworks Performance Test 1.0</h1>
 			</div>
 
-			<div id="testsControls" class="tests-controls">
-				<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
-					<label value="Data Set Size">
-						<input type="number" name="dataSetSize" placeholder="Put data set size ex. 10000">
-					</label>
-					<label value="Number of tests">
-						<input type="number" name="iterationsNumber" placeholder="Put number of experiments to perform" value="30">
-					</label>
-					<br>
-					<button type="submit">Do Experiments!</button>
-				</form>
-			</div>
-		</header>
-
-		<div id="raport" class="tests-report" style="display: none;">
-			<table id="raportTable">
-			<tbody>
-				<tr class="label">
-					<td>Name</td>
-					<td>Minumum Time</td>
-					<td>Maximum Time</td>
-					<td>Average Time</td>
-				</tr>
-			</tbody>
-			</table>
-		</div>
-
-		<div class="tests-container">
-			<div id="vanillaApp" class="container">
-				<div class="test">
-					<header>
-						<h2>Vanilla.js</h2>
-					</header>
+			<div class="row">
+				<div class="columns three">&nbsp;</div>
+				<div id="testsControls" class="tests-controls columns six">
+					<form name="batchTestsForm" action="#" onsubmit="app.batch.run(this); return false;">
+						<div>
+							<label for="dataSetSize">Data set size:</label>
+							<input type="number" id="dataSetSize" placeholder="Put fixed number here ex. 10000">
+						</div>
+						<div>
+							<label for="iterationsNumber">Number of tests:</label>
+							<input type="number" id="iterationsNumber" placeholder="Put fixed number here ex. 30">
+						</div>
+						<div class="buttons">
+							<button type="submit" class="button-primary">Do Experiments!</button>
+						</div>
+					</form>
 				</div>
-				<div class="controls">
-					<button onclick="app.tests.vanilla.run()">Run Test</button>
-				</div>
-				<div class="results">
-					time: <span class="test-time"></span>
-				</div>
-				<div class="content"></div>
+				<div class="columns three">&nbsp;</div>
 			</div>
 
-  		<div id="angularApp" class="container" ng-controller="mainController as ctrl">
-				<div class="test">
-					<header>
-						<h2>Angular.js</h2>
-					</header>
+			<div id="raport" class="tests-report row column one" style="display: none;">
+				<table id="raportTable">
+					<thead>
+						<th>Name</th>
+						<th>Minumum Time</th>
+						<th>Maximum Time</th>
+						<th>Average Time</th>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+			<div class="experiments-container container row">
+				<div id="vanillaApp" class="experiment columns three">
+					<div class="header">
+						<h3>Vanilla</h3>
+					</div>
+					<div class="context">
+						<div class="controls">
+							<button class="button-primary" onclick="app.tests.vanilla.run()">Run Test</button>
+						</div>
+						<div class="results">
+							Result: <span class="test-time"></span>
+						</div>
+						<div class="content"></div>
+					</div>
 				</div>
-				<div class="controls">
-					<button ng-click="ctrl.run()">Run Test</button>
+
+	  		<div id="angularApp" class="experiment columns three" ng-controller="mainController as ctrl">
+					<div class="header">
+						<h3>Angular</h3>
+					</div>
+					<div class="context">
+						<div class="controls">
+							<button class="button-primary" ng-click="ctrl.run()">Run Test</button>
+						</div>
+						<div class="results">
+							<span>Result: {{ctrl.data.testTime}}</span>
+						</div>
+						<div class="content" ng-hide="ctrl.data.records.length"></div>
+						<div class="content" ng-show="ctrl.data.records.length">
+							<div ng-repeat="record in ctrl.data.records track by $index" on-finish="finished">
+								<div>{{record}}</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="results">
-					<span>time: {{ctrl.data.testTime}}</span>
+
+				<div id="reactApp" class="experiment columns three">
+					<div class="header">
+						<h3>React</h3>
+					</div>
+					<div class="context">
+						<div class="controls">
+							<button class="button-primary" onclick="app.tests.react.run()">Run Test</button>
+						</div>
+						<div class="results">
+							Result: <span class="test-time"></span>
+						</div>
+						<div class="content"></div>
+					</div>
 				</div>
-				<div class="content" ng-hide="ctrl.data.records.length"></div>
-				<div class="content" ng-show="ctrl.data.records.length">
-					<div ng-repeat="record in ctrl.data.records track by $index" on-finish="finished">
-						<div>{{record}}</div>
+
+	  		<div id="angularReactApp" class="experiment columns three" ng-controller="mainController as ctrl">
+					<div class="header">
+						<h3>Angular &amp; React</h3>
+					</div>
+					<div class="context">
+						<div class="controls">
+							<button class="button-primary" ng-click="ctrl.run()">Run Test</button>
+						</div>
+						<div class="results">
+							<span>Result: {{data.testTime}}</span>
+						</div>
+						<div class="content"></div>
 					</div>
 				</div>
 			</div>
 
-			<div id="reactApp" class="container">
-				<div class="test">
-					<header>
-						<h2>React.js</h2>
-					</header>
+			<div id="footer" class="row">
+				<div class="columns twelve">
+					Made by Appdy.net
 				</div>
-				<div class="controls">
-					<button onclick="app.tests.react.run()">Run Test</button>
-				</div>
-				<div class="results">
-					time: <span class="test-time"></span>
-				</div>
-				<div class="content"></div>
-			</div>
-
-  		<div id="angularReactApp" class="container" ng-controller="mainController as ctrl">
-				<div class="test">
-					<header>
-						<h2>Angular.js &amp; React.js</h2>
-					</header>
-				</div>
-				<div class="controls">
-					<button ng-click="ctrl.run()">Run Test</button>
-				</div>
-				<div class="results">
-					<span>time: {{data.testTime}}</span>
-				</div>
-				<div class="content"></div>
 			</div>
 		</div>
 
