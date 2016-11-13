@@ -71,7 +71,7 @@ var app = (function () {
 	function showProgressBar() {
 		return new Promise(function (resolve) {
 			progressBar.show();
-			resolve();
+			setTimeout(resolve, 100);
 		});
 	}
 
