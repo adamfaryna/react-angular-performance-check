@@ -2,6 +2,8 @@
 
 _Application demonstrating performance comparison of Vanilla.js, Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid._
 
+Check [Live Demo](https://js-frameworks-performance-test.herokuapp.com).
+
 ## Introduction
 
 This simple app is build using pure Javascript without any fireworks.
