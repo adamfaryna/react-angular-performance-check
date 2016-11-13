@@ -3,8 +3,12 @@ app.experiments.angular = (function () {
 	var rootElementId = 'angularApp';
 	var common = app.common;
 	var rootElement = document.getElementById(rootElementId);
+	var contentElement = rootElement.querySelector('.content');
 	var cleanListener = rootElementId + 'clean';
 	var runListener = rootElementId + 'run';
+	var testTime;
+	var startTime;
+	var endTime;
 
 
 	function AngularExperiment() {
@@ -15,9 +19,10 @@ app.experiments.angular = (function () {
 		angular
 			.module('angularApp', [])
 			.directive('onFinish', app.angular.OnFinish)
+			.directive('myRecord', app.angular.Record)
 			.controller('mainController', MainController);
 
-		MainController.$inject = ['$scope', '$timeout'];
+		MainController.$inject = ['$scope', '$timeout', '$q'];
 		
 		this.run = function () {
 			return new Promise(function (resolve) {
@@ -45,7 +50,7 @@ app.experiments.angular = (function () {
 			});
 		};
 
-		function MainController($scope, $timeout) {
+		function MainController($scope, $timeout, $q) {
 			var vm = this;
 			scope = $scope;
 
@@ -59,10 +64,15 @@ app.experiments.angular = (function () {
 			vm.run = function () {
 				vm.clean()
 					.then(function () {
+						var deferred = $q.defer();
+
 						$timeout(function () {
 							vm.data.startTime = Date.now();
 						  vm.data.records = app.getData();
+						  deferred.resolve();
 						});
+
+						return deferred.promise;
 				});
 			};
 

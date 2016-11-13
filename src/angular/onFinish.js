@@ -1,5 +1,5 @@
 app.angular.OnFinish = (function () {
-	return function Directive() {
+	return function () {
 		return {
 			restrict: 'A',
 			link: function (scope, element, attr) {
