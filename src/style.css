@@ -6,8 +6,20 @@ h1 {
 	font-size: 4rem;
 }
 
+h2 {
+	font-size: 3rem;
+}
+
 div {
 	border-radius: 4px;
+}
+
+.row {
+	margin: 10px 0;
+}
+
+.row .header h2 {
+	text-align: center;
 }
 
 body .container {
@@ -152,4 +164,19 @@ tr.label {
 #footer {
 	text-align: center;
 	margin-top: 15px;
+}
+
+.record {
+	border: 1px solid #000;
+	overflow: auto;
+	margin: 10px 0;
+	padding: 10px;
+}
+
+.record .record-sm img {
+	display: inline-block;
+}
+
+.record .record-sm a {
+	margin: 5px;
 }
