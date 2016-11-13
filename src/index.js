@@ -54,7 +54,7 @@ var app = (function () {
 
 		return new Promise(function (resolve) {
 			var dataSetSize = form.getElementsByTagName('input').namedItem('dataSetSize');
-			dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : 10000;
+			dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : 200;
 			dataRecords = [];
 
 			for (var i = 0; i !== dataSetSizeVal; i++) {
