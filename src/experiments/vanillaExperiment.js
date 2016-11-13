@@ -20,6 +20,76 @@ app.experiments.vanilla = (function () {
 			});
 		};
 
+		function createElement(val) {
+			var record = document.createElement('div');
+			record.className = 'record';
+
+			var recordAvatar = document.createElement('div');
+			recordAvatar.className = 'record-avatar record-column two';
+
+			var avatar = document.createElement('img');
+			avatar.src = 'img/avatar.png';
+			recordAvatar.appendChild(avatar);
+
+			var recordData = document.createElement('div');
+			recordData.className = 'record-data columns ten';
+
+			var recordName = document.createElement('div');
+			recordName.className = 'record-name';
+
+			var name = document.createElement('span');
+			name.innerHTML = 'Name ';
+			var surname = document.createElement('span');
+			surname.innerHTML = 'Surname';
+			recordName.appendChild(name);
+			recordName.appendChild(surname);
+			recordData.appendChild(recordName);
+
+			var recordId = document.createElement('div');
+			recordId.className = 'record-id';
+			var idSpan = document.createElement('span');
+			idSpan.innerHTML = val;
+			recordId.appendChild(idSpan);
+			recordData.appendChild(recordId);
+
+			var recordDataDisc = document.createElement('div');
+			recordDataDisc.className = 'record-desc';
+			var recordDataDiscSpan = document.createElement('span');
+			recordDataDiscSpan.innerHTML = 'Description';
+			recordDataDisc.appendChild(recordDataDiscSpan);
+			recordData.appendChild(recordDataDisc);
+
+			var recordSm = document.createElement('div');
+			recordSm.className = 'record-sm';
+
+			var facebookLink = document.createElement('a');
+			var facebookImg = document.createElement('img');
+			facebookLink.href = 'https://www.facebook.com/appdy.net';
+			facebookImg.src = 'img/facebook.png';
+			facebookLink.appendChild(facebookImg);
+			recordSm.appendChild(facebookLink);
+
+			var twitterLink = document.createElement('a');
+			var twitterImg = document.createElement('img');
+			twitterLink.href = 'https://twitter.com/AppdyApp';
+			twitterImg.src = 'img/twitter.png';
+			twitterLink.appendChild(twitterImg);
+			recordSm.appendChild(twitterLink);
+
+			var linkedInLink = document.createElement('a');
+			var linkedInImg = document.createElement('img');
+			linkedInLink.href = 'https://linkedin.com';
+			linkedInImg.src = 'img/linkedin.png';
+			linkedInLink.appendChild(linkedInImg);
+			recordSm.appendChild(linkedInLink);
+
+			recordData.appendChild(recordSm);
+
+			record.appendChild(recordAvatar);
+		  record.appendChild(recordData);
+		  return record;
+		}
+
 		this.run = function() {
 			return new Promise(function (resolve) {
 				self.clean()
@@ -29,9 +99,8 @@ app.experiments.vanilla = (function () {
 						var fragment = document.createDocumentFragment();
 						
 						for (var i = 0; i !== data.length; i++) {
-							var div = document.createElement('div');
-							div.innerHTML = data[i];
-							fragment.appendChild(div);
+							var element = createElement(data[i]);
+							fragment.appendChild(element);
 						}
 						
 						collectionRootElement.appendChild(fragment);
