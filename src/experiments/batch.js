@@ -22,7 +22,7 @@ app.batch = (function () {
 	}
 
 	function performExperiments() {
-		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : 30;
+		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : 20;
 
 		var promise = cleanReport()
 			.then(showReport)
