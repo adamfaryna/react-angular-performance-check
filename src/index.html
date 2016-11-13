@@ -116,20 +116,20 @@
 						</div>
 						<div class="content" ng-hide="ctrl.data.records.length"></div>
 						<div class="content" ng-show="ctrl.data.records.length">
-							<div ng-repeat="record in ctrl.data.records track by $index" on-finish="finished">
+							<div ng-repeat="record in ctrl.data.records track by record.id" on-finish="finished">
 								<div class="record">
 									<div class="record-avatar column two">
 										<img src="img/avatar.png">
 									</div>
 									<div class="record-data columns ten">
 										<div class="record-name">
-											<span>Name</span>&nbsp;<span>Surname</span>
+											<span>{{record.name}} </span><span>{{record.surname}}</span>
 										</div>
 										<div class="record-id">
-											<span>{{record}}</span>
+											<span>{{record.id}}</span>
 										</div>
 										<div class="record-desc">
-											<span>Description</span>
+											<span>{{record.description}}</span>
 										</div>
 										<div class="record-sm">
 											<a href="https://www.facebook.com/appdy.net">
@@ -201,6 +201,7 @@
 		<script src="index.js"></script>
 		<script src="commons.js"></script>
 		<script src="angular/onFinish.js"></script>
+		<script src="react/experimentComponentRecord.js"></script>
 		<script src="react/experimentComponent.js"></script>
 		<script src="experiments/basicExperiment.js"></script>
 		<script src="experiments/vanillaExperiment.js"></script>

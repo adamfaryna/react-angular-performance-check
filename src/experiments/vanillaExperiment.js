@@ -38,9 +38,9 @@ app.experiments.vanilla = (function () {
 			recordName.className = 'record-name';
 
 			var name = document.createElement('span');
-			name.innerHTML = 'Name ';
+			name.innerHTML = val.name + ' ';
 			var surname = document.createElement('span');
-			surname.innerHTML = 'Surname';
+			surname.innerHTML = val.surname;
 			recordName.appendChild(name);
 			recordName.appendChild(surname);
 			recordData.appendChild(recordName);
@@ -48,14 +48,14 @@ app.experiments.vanilla = (function () {
 			var recordId = document.createElement('div');
 			recordId.className = 'record-id';
 			var idSpan = document.createElement('span');
-			idSpan.innerHTML = val;
+			idSpan.innerHTML = val.id;
 			recordId.appendChild(idSpan);
 			recordData.appendChild(recordId);
 
 			var recordDataDisc = document.createElement('div');
 			recordDataDisc.className = 'record-desc';
 			var recordDataDiscSpan = document.createElement('span');
-			recordDataDiscSpan.innerHTML = 'Description';
+			recordDataDiscSpan.innerHTML = val.description;
 			recordDataDisc.appendChild(recordDataDiscSpan);
 			recordData.appendChild(recordDataDisc);
 

@@ -7,7 +7,6 @@ app.experiments.react = (function () {
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var startTime = null;
-	var testTime = '';
 
 	function ReactExperiment() {
 		var self = this;
@@ -33,7 +32,6 @@ app.experiments.react = (function () {
 		this.clean = function() {
 			return new Promise(function (resolve) {
 				startTime = null;
-				testTime = '';
 				testTimeElement.innerHTML = '';
 
 				var eventHandler = function (e) {
