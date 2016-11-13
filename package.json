@@ -15,10 +15,9 @@
     "url": "https://github.com/adamfaryna/react-angular-performance-check.git"
   },
   "dependencies": {
+    "bower": "^1.8.0",
     "browser-sync": "^2.17.5",
-    "foreman": "^2.0.0"
-  },
-  "devDependencies": {
+    "foreman": "^2.0.0",
     "connect": "^3.5.0",
     "serve-static": "^1.11.1"
   }
