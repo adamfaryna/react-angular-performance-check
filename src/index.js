@@ -42,7 +42,16 @@ var app = (function () {
 	};
 
 	function genData() {
-		return Math.random();
+		return {
+			id: Math.random(),
+			name: genRandomString(),
+			surname: genRandomString(),
+			description: genRandomString()
+		} 
+	}
+
+	function genRandomString() {
+		return Math.random().toString(36).substr(2, 5);
 	}
 
 	function getData() {
