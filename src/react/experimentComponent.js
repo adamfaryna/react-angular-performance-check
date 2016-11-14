@@ -17,7 +17,6 @@ app.react.ExperimentComponent = (function () {
 		},
 
 		render: function() {
-			console.log('render');
 			startTime = Date.now();
 			var elements = this.props.data.map(function (val, index) {
 				return React.createElement(ExperimentComponentRecord, {key: index, data: val});
