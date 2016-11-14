@@ -12,15 +12,15 @@ app.react.ExperimentComponentRecord = (function () {
 			return false;
 		},
 
-		render: function() {
+		render: function () {
 			return React.createElement('div', {key: this.props.data.index, className: 'record'},
 				React.createElement('div', {key: 1, className: 'record-avatar column two'},
 					React.createElement('img', {key: 1, src: 'img/avatar.png'})
 				),
-				React.createElement('div', {key: 2, className: 'record-data columns ten'}, [
+				React.createElement('div', {key: 2, className: 'record-data columns ten'},
 					React.createElement('div', {key: 1, className: 'record-name'},
-						React.createElement('span', {key: 1}, this.props.data.name + ' '),
-						React.createElement('span', {key: 2}, this.props.data.surname)
+						React.createElement('span', {key: 1, className: 'name'}, this.props.data.name + ' '),
+						React.createElement('span', {key: 2, className: 'surname'}, this.props.data.surname)
 					),
 					React.createElement('div', {key: 2, className: 'record-id'},
 						React.createElement('span', {key: 1}, this.props.data.id)
@@ -28,7 +28,7 @@ app.react.ExperimentComponentRecord = (function () {
 					React.createElement('div', {key: 3, className: 'record-desc'},
 						React.createElement('span', {key: 1}, this.props.data.description)
 					),
-					React.createElement('div', {key: 4, className: 'record-sm'}, [
+					React.createElement('div', {key: 4, className: 'record-sm'}, 
 						React.createElement('a', {key: 1, href: 'https://www.facebook.com/appdy.net'},
 							React.createElement('img', {key: 1, src: 'img/facebook.png'})
 						),
@@ -38,8 +38,8 @@ app.react.ExperimentComponentRecord = (function () {
 						React.createElement('a', {key: 3, href: 'https://linkedin.com'},
 							React.createElement('img', {key: 1, src: 'img/linkedin.png'})
 						)
-					])
-				])
+					)
+				)
 			);
 		}
 	});

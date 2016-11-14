@@ -20,7 +20,7 @@ app.experiments.vanilla = (function () {
 			});
 		};
 
-		function createElement(val) {
+		var elementTemplate = (function initElement() {
 			var record = document.createElement('div');
 			record.className = 'record';
 
@@ -38,9 +38,9 @@ app.experiments.vanilla = (function () {
 			recordName.className = 'record-name';
 
 			var name = document.createElement('span');
-			name.innerHTML = val.name + ' ';
+			name.className = 'name';
 			var surname = document.createElement('span');
-			surname.innerHTML = val.surname;
+			surname.className = 'surname';
 			recordName.appendChild(name);
 			recordName.appendChild(surname);
 			recordData.appendChild(recordName);
@@ -48,14 +48,12 @@ app.experiments.vanilla = (function () {
 			var recordId = document.createElement('div');
 			recordId.className = 'record-id';
 			var idSpan = document.createElement('span');
-			idSpan.innerHTML = val.id;
 			recordId.appendChild(idSpan);
 			recordData.appendChild(recordId);
 
 			var recordDataDisc = document.createElement('div');
 			recordDataDisc.className = 'record-desc';
 			var recordDataDiscSpan = document.createElement('span');
-			recordDataDiscSpan.innerHTML = val.description;
 			recordDataDisc.appendChild(recordDataDiscSpan);
 			recordData.appendChild(recordDataDisc);
 
@@ -88,6 +86,15 @@ app.experiments.vanilla = (function () {
 			record.appendChild(recordAvatar);
 		  record.appendChild(recordData);
 		  return record;
+		})();
+
+		function createElement(val) {
+			var record = elementTemplate.cloneNode(true);
+			record.querySelector('.record-data span.name').innerHTML = val.name + ' ';
+			record.querySelector('.record-data span.surname').innerHTML = val.surname;
+			record.querySelector('.record-id span').innerHTML = val.id;
+			record.querySelector('.record-desc span').innerHTML = val.description;
+			return record;
 		}
 
 		this.run = function() {

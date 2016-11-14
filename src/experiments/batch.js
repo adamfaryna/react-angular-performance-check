@@ -39,6 +39,7 @@ app.batch = (function () {
 
 			promise = promise.then(printRaport(experiment))
 		});
+		var experiment = app.experiments.vanilla;
 
 		return promise.then(app.hideProgressBar);
 	}
