@@ -24,7 +24,6 @@
   "dependencies": {
     "angular": "^1.5.8",
     "react": "^15.3.2",
-    "moment": "^2.15.2",
     "skeleton": "^2.0.4"
   }
 }
