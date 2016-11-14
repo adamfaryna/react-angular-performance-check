@@ -22,13 +22,14 @@ app.experiments.angular = (function () {
 			.directive('myRecord', app.angular.Record)
 			.controller('mainController', MainController);
 
-		MainController.$inject = ['$scope', '$timeout', '$q'];
+		MainController.$inject = ['$scope', '$timeout'];
 		
 		this.run = function () {
 			return new Promise(function (resolve) {
 				var eventHandler = function (e) {
 					rootElement.removeEventListener(runListener, eventHandler);
 					e.preventDefault();
+					self.raports.push(e.detail.testTime);
 					resolve();
 				};
 
@@ -50,37 +51,36 @@ app.experiments.angular = (function () {
 			});
 		};
 
-		function MainController($scope, $timeout, $q) {
+		function MainController($scope, $timeout) {
 			var vm = this;
 			scope = $scope;
 
 			vm.data = {
 				records: [],
 				testTime: '',
-				startTime: '',
-				endTime: ''
+				startTime: null,
+				endTime: null
 			};
 
 			vm.run = function () {
 				vm.clean()
 					.then(function () {
-						var deferred = $q.defer();
-
-						$timeout(function () {
-							vm.data.startTime = Date.now();
-						  vm.data.records = app.getData();
-						  deferred.resolve();
+						return new Promise(function (resolve) {
+							$timeout(function () {
+								vm.data.startTime = Date.now();
+							  vm.data.records = app.getData();
+							  resolve();
+							});
 						});
-
-						return deferred.promise;
 				});
 			};
 
 			$scope.$on('finished', function (e, endTime) {
-				var testTime = common.calculateTestTime(vm.data.startTime, endTime);
-				self.raports.push(testTime);
-				vm.data.testTime = common.formatTestTime(testTime);
-				rootElement.dispatchEvent(new CustomEvent(runListener, {detail: {testTime: testTime}}));
+				if (vm.data.records.length !== 0) {
+					var testTime = common.calculateTestTime(vm.data.startTime, endTime);
+					vm.data.testTime = common.formatTestTime(testTime);
+					rootElement.dispatchEvent(new CustomEvent(runListener, {detail: {testTime: testTime}}));
+				}
 			});
 
 			$scope.$on('run', function () {
@@ -94,8 +94,8 @@ app.experiments.angular = (function () {
 			vm.clean = function () {
 				return new Promise(function (resolve) {
 					$timeout(function () {
-						vm.data.startTime = '';
-						vm.data.endTime = '';
+						vm.data.startTime = null;
+						vm.data.endTime = null;
 						vm.data.testTime = '';
 						vm.data.records = [];
 						rootElement.dispatchEvent(new CustomEvent(cleanListener));
