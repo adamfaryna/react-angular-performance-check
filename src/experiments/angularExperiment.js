@@ -4,12 +4,10 @@ app.experiments.angular = (function () {
 	var common = app.common;
 	var rootElement = document.getElementById(rootElementId);
 	var contentElement = rootElement.querySelector('.content');
+	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var cleanListener = rootElementId + 'clean';
-	var runListener = rootElementId + 'run';
-	var testTime;
-	var startTime;
-	var endTime;
-
+	var runCreateListener = rootElementId + 'runCreate';
+	var runAppendListener = rootElementId + 'runAppend';
 
 	function AngularExperiment() {
 		var self = this;
@@ -24,18 +22,54 @@ app.experiments.angular = (function () {
 
 		MainController.$inject = ['$scope', '$timeout'];
 		
-		this.run = function () {
-			return new Promise(function (resolve) {
-				var eventHandler = function (e) {
-					rootElement.removeEventListener(runListener, eventHandler);
-					e.preventDefault();
-					self.raports.push(e.detail.testTime);
-					resolve();
-				};
+		this.runCreate = function (saveRaport) {
+			return function () {
+				saveRaport = saveRaport || true;
 
-				rootElement.addEventListener(runListener, eventHandler);
-				scope.$emit('run');
-			});
+				return new Promise(function (resolve) {
+					var eventHandler = function (e) {
+						rootElement.removeEventListener(runCreateListener, eventHandler);
+						e.preventDefault();
+
+						var testTime = e.detail.testTime;
+						testTimeElement.innerHTML = common.formatTestTime(testTime);
+
+						if (saveRaport) {
+							self.raports.createOperations.push(testTime);
+						}
+
+						resolve();
+					};
+
+					rootElement.addEventListener(runCreateListener, eventHandler);
+					scope.$emit('runCreate');
+				});
+			};
+		};
+
+		this.runAppend = function (saveRaport) {
+			return function () {
+				saveRaport = saveRaport || true;
+
+				return new Promise(function (resolve) {
+					var eventHandler = function (e) {
+						rootElement.removeEventListener(runAppendListener, eventHandler);
+						e.preventDefault();
+
+						var testTime = e.detail.testTime;
+						testTimeElement.innerHTML = common.formatTestTime(testTime);
+
+						if (saveRaport) {
+							self.raports.appendOperations.push(testTime);
+						}
+
+						resolve();
+					};
+
+					rootElement.addEventListener(runAppendListener, eventHandler);
+					scope.$emit('runAppend');
+				});
+			};
 		};
 
 		this.clean = function () {
@@ -62,29 +96,23 @@ app.experiments.angular = (function () {
 				endTime: null
 			};
 
-			vm.run = function () {
-				vm.clean()
-					.then(function () {
-						return new Promise(function (resolve) {
-							$timeout(function () {
-								vm.data.startTime = Date.now();
-							  vm.data.records = app.getData();
-							  resolve();
-							});
-						});
-				});
-			};
-
 			$scope.$on('finished', function (e, endTime) {
-				if (vm.data.records.length !== 0) {
-					var testTime = common.calculateTestTime(vm.data.startTime, endTime);
-					vm.data.testTime = common.formatTestTime(testTime);
-					rootElement.dispatchEvent(new CustomEvent(runListener, {detail: {testTime: testTime}}));
+				var testTime = common.calculateTestTime(vm.data.startTime, endTime);
+
+				if (vm.data.records.length > app.getData().length) {
+					rootElement.dispatchEvent(new CustomEvent(runAppendListener, {detail: {testTime: testTime}}));
+
+				} else {
+					rootElement.dispatchEvent(new CustomEvent(runCreateListener, {detail: {testTime: testTime}}));
 				}
 			});
 
-			$scope.$on('run', function () {
-				vm.run();
+			$scope.$on('runCreate', function () {
+				vm.runCreate();
+			});
+
+			$scope.$on('runAppend', function () {
+				vm.runAppend();
 			});
 
 			$scope.$on('clean', function () {
@@ -101,6 +129,38 @@ app.experiments.angular = (function () {
 						rootElement.dispatchEvent(new CustomEvent(cleanListener));
 						resolve();
 					});
+				});
+			};
+
+			vm.runCreate = function () {
+				return vm.clean()
+					.then(function () {
+						return new Promise(function (resolve) {
+							$timeout(function () {
+								vm.data.startTime = Date.now();
+							  vm.data.records = app.getData();
+							  resolve();
+							});
+						});
+				});
+			};
+
+			vm.runAppend = function () {
+				return new Promise(function (resolve) {
+					var eventHandler = function (e) {
+						rootElement.removeEventListener(runCreateListener, eventHandler);
+						e.preventDefault();
+
+						$timeout(function () {
+							var dataSet = vm.data.records.concat(app.genDataSet());
+							vm.data.startTime = Date.now();
+						  vm.data.records = dataSet;
+						  resolve();
+						});
+					};
+
+					rootElement.addEventListener(runCreateListener, eventHandler);
+					vm.runCreate();
 				});
 			};
 		}

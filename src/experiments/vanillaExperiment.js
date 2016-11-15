@@ -9,7 +9,7 @@ app.experiments.vanilla = (function () {
 		var self = this;
 		this.name = name;	
 		
-		this.clean = function () {
+		this.clean = function clean() {
 			return new Promise(function (resolve) {
 				while (collectionRootElement.firstChild) {
 					collectionRootElement.removeChild(collectionRootElement.firstChild);
@@ -97,12 +97,47 @@ app.experiments.vanilla = (function () {
 			return record;
 		}
 
-		this.run = function() {
-			return new Promise(function (resolve) {
-				self.clean()
+		this.runCreate = function runCreate(saveRaport) {
+			return function () {
+				saveRaport = saveRaport !== undefined ? saveRaport : true;
+
+				return new Promise(function (resolve) {
+					self.clean()
+						.then(function () {
+							var data = app.getData();
+							var startTime = Date.now();
+							var fragment = document.createDocumentFragment();
+							
+							for (var i = 0; i !== data.length; i++) {
+								var element = createElement(data[i]);
+								fragment.appendChild(element);
+							}
+							
+							collectionRootElement.appendChild(fragment);
+
+							var endTime = Date.now();
+							var testTime = common.calculateTestTime(startTime, endTime);
+
+							if (saveRaport) {
+								self.raports.createOperations.push(testTime);
+							}
+
+							testTimeElement.innerHTML = common.formatTestTime(testTime);
+							resolve();
+					});
+				});
+			}
+		};
+
+		this.runAppend = function runAppend(saveRaport) {
+			return function () {
+				saveRaport = saveRaport !== undefined ? saveRaport : true;
+
+				return self.runCreate(false)()
 					.then(function () {
-						var data = app.getData();
-						startTime = Date.now();
+						var data = app.genDataSet();
+						var startTime = Date.now();
+
 						var fragment = document.createDocumentFragment();
 						
 						for (var i = 0; i !== data.length; i++) {
@@ -114,11 +149,14 @@ app.experiments.vanilla = (function () {
 
 						var endTime = Date.now();
 						var testTime = common.calculateTestTime(startTime, endTime);
-						self.raports.push(testTime);
+
+						if (saveRaport) {
+							self.raports.appendOperations.push(testTime);
+						}
+
 						testTimeElement.innerHTML = common.formatTestTime(testTime);
-						resolve();
-					})
-			});
+				});
+			};
 		};
 	}
 

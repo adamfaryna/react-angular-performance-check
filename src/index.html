@@ -31,7 +31,7 @@
 						</div>
 						<div class="log"></div>
 						<div class="buttons">
-							<button type="submit" class="button-primary" onclick="app.prepareDataSet();">Create Data Set</button>
+							<button type="submit" class="button-primary" onclick="app.prepareBaseDataSet();">Create Data Set</button>
 							<button type="submit" class="button-primary" onclick="app.batch.run();">Do Experiments!</button>
 						</div>
 					</form>
@@ -72,20 +72,6 @@
 				</div>
 			</div>
 
-			<div id="raport" class="tests-report row hidden">
-				<div class="column one">
-					<table id="raportTable">
-						<thead>
-							<th>Name</th>
-							<th>Minumum Time</th>
-							<th>Maximum Time</th>
-							<th>Average Time</th>
-						</thead>
-						<tbody></tbody>
-					</table>
-				</div>
-			</div>
-
 			<div class="experiments-container container row">
 				<div id="vanillaApp" class="experiment columns three">
 					<div class="header">
@@ -93,7 +79,8 @@
 					</div>
 					<div class="context">
 						<div class="controls">
-							<button class="button-primary" onclick="app.experiments.vanilla.run()">Run Test</button>
+							<button class="button-primary" onclick="app.experiments.vanilla.runCreate(false)()">Insert Test</button>
+							<button class="button-primary" onclick="app.experiments.vanilla.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
 							Result: <span class="test-time"></span>
@@ -108,10 +95,11 @@
 					</div>
 					<div class="context">
 						<div class="controls">
-							<button class="button-primary" onclick="app.experiments.angular.run()">Run Test</button>
+							<button class="button-primary" onclick="app.experiments.angular.runCreate(false)()">Insert Test</button>
+							<button class="button-primary" onclick="app.experiments.angular.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
-							<span>Result: {{ctrl.data.testTime}}</span>
+							Result: <span class="test-time"></span>
 						</div>
 						<div class="content">
 							<div ng-repeat="record in ctrl.data.records track by record.id" on-finish="finished">
@@ -127,7 +115,8 @@
 					</div>
 					<div class="context">
 						<div class="controls">
-							<button class="button-primary" onclick="app.experiments.react.run()">Run Test</button>
+							<button class="button-primary" onclick="app.experiments.react.runCreate(false)()">Create Test</button>
+							<button class="button-primary" onclick="app.experiments.react.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
 							Result: <span class="test-time"></span>
@@ -142,13 +131,45 @@
 					</div>
 					<div class="context">
 						<div class="controls">
-							<button class="button-primary" ng-click="ctrl.run()">Run Test</button>
+							<button class="button-primary" onclick="app.experiments.angularReact.runCreate(false)()">Create Test</button>
+							<button class="button-primary" onclick="app.experiments.angularReact.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
-							<span>Result: {{data.testTime}}</span>
+							Result: <span class="test-time"></span>
 						</div>
 						<div class="content"></div>
 					</div>
+				</div>
+			</div>
+
+			<div id="raport" class="tests-report row hidden">
+				<div id="createRaportTable">
+					<div class="header">
+						<h3>Raport for Create Elements</h3>
+					</div>
+					<table>
+						<thead>
+							<th>Name</th>
+							<th>Minimum Time</th>
+							<th>Maximum Time</th>
+							<th>Average Time</th>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div id="appendRaportTable">
+					<div class="header">
+						<h3>Raport for Append Elements</h3>
+					</div>
+					<table>
+						<thead>
+							<th>Name</th>
+							<th>Minimum Time</th>
+							<th>Maximum Time</th>
+							<th>Average Time</th>
+						</thead>
+						<tbody></tbody>
+					</table>
 				</div>
 			</div>
 
@@ -170,6 +191,7 @@
 			</div>
 		</div>
 
+		<script src="domExtend.js"></script>
 		<script src="index.js"></script>
 		<script src="commons.js"></script>
 		<script src="angular/onFinish.js"></script>

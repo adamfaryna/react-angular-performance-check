@@ -5,14 +5,15 @@ app.react.ExperimentComponent = (function () {
 	return React.createClass({
 		propTypes: {
 			data: React.PropTypes.array.isRequired,
-			rootId: React.PropTypes.string.isRequired
+			rootId: React.PropTypes.string.isRequired,
+			eventName: React.PropTypes.string.isRequired
 		},
-
+		
 		componentDidUpdate: function() {
 			var endTime = Date.now();
 			var testTime = app.common.calculateTestTime(startTime, endTime);
 
-			var event = new CustomEvent(this.props.rootId, {detail: {testTime: testTime}});
+			var event = new CustomEvent(this.props.eventName, {detail: {testTime: testTime}});
 			document.getElementById(this.props.rootId).dispatchEvent(event);
 		},
 

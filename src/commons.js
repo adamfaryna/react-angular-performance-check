@@ -11,18 +11,18 @@ app.common = {
 	getCollectionRootElement: function(rootId) {
 		return document.querySelector('#' + rootId + ' .content');
 	},
-	getExperimentAvg: function(experiment) {
-		return (experiment.raports.reduce(function (a, b) {
+	getExperimentAvg: function(collection) {
+		return (collection.reduce(function (a, b) {
 			return a + b;
-		}, 0) / experiment.raports.length).toFixed(2);
+		}, 0) / collection.length).toFixed(2);
 	},
-	getExperimentMin: function(experiment) {
-		return experiment.raports.reduce(function (a, b) {
+	getExperimentMin: function(collection) {
+		return collection.reduce(function (a, b) {
 			return a < b ? a : b;
 		}, Number.MAX_VALUE)
 	},
-	getExperimentMax: function(experiment) {
-		return experiment.raports.reduce(function (a, b) {
+	getExperimentMax: function(collection) {
+		return collection.reduce(function (a, b) {
 			return a < b ? b : a;
 		}, Number.MIN_VALUE);
 	}

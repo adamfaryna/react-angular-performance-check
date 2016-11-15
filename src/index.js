@@ -5,49 +5,22 @@ var app = (function () {
 	var log = testsControls.querySelector('.log');
 	var dataRecords = [];
 
-	Element.prototype.hasClass = function(className) {
-	  if (this.classList) {
-	    return this.classList.contains(className);
+	var nameIndex = 0;
+	var surnameIndex = 0;
+	var descriptionIndex = 0;
 
-	  } else {
-	    return !!this.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
-	  }
-	};
-
-	Element.prototype.addClass = function(className) {
-	  if (this.classList) {
-	    this.classList.add(className);
-
-	  } else if (!this.hasClass(this, className)) {
-			this.className += " " + className;
-	  }
-	};
-
-	Element.prototype.removeClass = function(className) {
-		if (this.classList) {
-		  this.classList.remove(className);
-
-		} else if (this.hasClass(this, className)) {
-		  var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-		  this.className = this.className.replace(reg, ' ');
-		}
-	};
-
-	Element.prototype.hide = function() {
-		this.addClass('hidden');
-	};
-
-	Element.prototype.show = function() {
-		this.removeClass('hidden');
-	};
+	var basicId = 0;
+	var basicName = genRandomString();
+	var basicSurname = genRandomString();
+	var basicDescription = genRandomString();
 
 	function genData() {
 		return {
-			id: Math.random(),
-			name: genRandomString(),
-			surname: genRandomString(),
-			description: genRandomString()
-		} 
+			id: ++basicId,
+			name: basicName + (++nameIndex),
+			surname: basicSurname + (++surnameIndex),
+			description: basicDescription + (++descriptionIndex)
+		};
 	}
 
 	function genRandomString() {
@@ -58,22 +31,23 @@ var app = (function () {
 		return dataRecords;
 	}
 
-	function prepareDataSet() {
-		var dataSetSizeVal;
+	function genDataSet() {
+		var dataSetSize = form.getElementsByTagName('input').namedItem('dataSetSize');
+		var dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : 200;
+		var data = [];
 
+		for (var i = 0; i !== dataSetSizeVal; i++) {
+			data[i] = genData();
+		}
+
+		return data;
+	}
+
+	function prepareBaseDataSet() {
 		return new Promise(function (resolve) {
-			var dataSetSize = form.getElementsByTagName('input').namedItem('dataSetSize');
-			dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : 200;
-			dataRecords = [];
-
-			for (var i = 0; i !== dataSetSizeVal; i++) {
-				dataRecords[i] = genData();
-			}
-
+			dataRecords = genDataSet();
+			log.innerHTML = 'Data set READY! ' + dataRecords.length + ' elements.';
 			resolve();
-		})
-		.then(function () {
-			log.innerHTML = 'Data set READY! ' + dataSetSizeVal + ' elements.';
 		});
 	}
 
@@ -91,9 +65,12 @@ var app = (function () {
 		});
 	}
 
+	prepareBaseDataSet();
+
 	return {
 		getData: getData,
-		prepareDataSet: prepareDataSet,
+		genDataSet: genDataSet,
+		prepareBaseDataSet: prepareBaseDataSet,
 		showProgressBar: showProgressBar,
 		hideProgressBar: hideProgressBar,
 		experiments: {},

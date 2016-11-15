@@ -113,17 +113,25 @@ body .container {
 }
 
 #raport {
+	border: 1px solid #000;
 	margin: 20px 0;
 }
 
-#raportTable {
-	border: 1px solid;
-	margin: auto;
-	padding: 10px;
-	width: 1000px;
+#raport .header {
+	text-align: center;
 }
 
-tbody tr td {
+#raport table {
+	margin: auto;
+	width: 100%;
+}
+
+#createRaportTable, #appendRaportTable {
+	margin: auto;
+	padding: 10px;
+}
+
+#raport tbody tr td {
 	padding: 5px;
 }
 

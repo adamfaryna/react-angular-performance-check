@@ -2,20 +2,27 @@ app.batch = (function () {
 	var common = app.common;
 	var form = document.getElementById('form');
 	var raport = document.getElementById('raport');
-	var raportBody = raport.querySelector('#raportTable tbody');
+	var raportBodyCreate = raport.querySelector('#createRaportTable tbody');
+	var raportBodyAppend = raport.querySelector('#appendRaportTable tbody');
 	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
+	var experimentsNames = ['vanilla', 'angular', 'react', 'angularReact'];
 
 	function cleanReport() {
 		return new Promise(function (resolve) {
-			var elements = raportBody.getElementsByTagName('tr');
-
-			while(raportBody.children.length !== 0) {
-				raportBody.removeChild(raportBody.children[0]);
+			while(raportBodyCreate.children.length !== 0) {
+				raportBodyCreate.removeChild(raportBodyCreate.children[0]);
 			}
 
-			Object.keys(app.experiments).forEach(function (key) {
-				app.experiments[key].clean();
-			});
+			while(raportBodyAppend.children.length !== 0) {
+				raportBodyAppend.removeChild(raportBodyAppend.children[0]);
+			}
+
+			for (var key in experimentsNames) {
+				if (app.experiments.hasOwnProperty(experimentsNames[key])) {
+					app.experiments[experimentsNames[key]].clean();
+					app.experiments[experimentsNames[key]].cleanRaport();
+				}
+			}
 
 			setTimeout(resolve, 50);
 		});
@@ -27,39 +34,58 @@ app.batch = (function () {
 		var promise = cleanReport()
 			.then(showReport)
 			.then(app.showProgressBar)
-			.then(app.prepareDataSet);
+			.then(app.prepareBaseDataSet);
 
-		Object.keys(app.experiments).forEach(function (key) {
-			var experiment = app.experiments[key];
-			experiment.clean();
+		for (var key in experimentsNames) {
+			if (app.experiments.hasOwnProperty(experimentsNames[key])) {
+				var experiment = app.experiments[experimentsNames[key]];
+				experiment.clean();
 
-			for (var i = 0; i !== iterationsNumberVal; i++) {
-				promise = promise.then(experiment.run);
+				for (var i = 0; i !== iterationsNumberVal; i++) {
+					promise = promise
+						.then(experiment.runCreate())
+						.then(experiment.runAppend());
+				}
+
+				promise = promise
+					.then(printRaport(experiment, raportBodyCreate))
+					.then(printRaport(experiment, raportBodyAppend));
 			}
-
-			promise = promise.then(printRaport(experiment))
-		});
-		var experiment = app.experiments.vanilla;
+		}
 
 		return promise.then(app.hideProgressBar);
 	}
 	
-	function printRaport(experiment) {
+	function printRaport(experiment, raportBody) {
 		return function () {
 			return new Promise(function (resolve) {
+				var raportRef;
+				var raportElement = raportBody.parentElement.parentElement;
+
+				if (raportElement.id === 'createRaportTable') {
+					raportRef = experiment.raports.createOperations;
+
+				} else if (raportElement.id === 'appendRaportTable') {
+					raportRef = experiment.raports.appendOperations;
+
+				} else {
+					throw new Error('Invalid "raportBody" value "' + raportElement.id + '".');
+				}
+
 				var tr = document.createElement('tr');
 
+				var content;
 				var nameColumn = document.createElement('td');
-				nameColumn.appendChild(document.createTextNode(experiment.name));
+				nameColumn.innerHTML = experiment.name;
 
 				var minColumn = document.createElement('td');
-				minColumn.appendChild(document.createTextNode(common.getExperimentMin(experiment) + 'ms'));
+				minColumn.innerHTML = common.formatTestTime(common.getExperimentMin(raportRef));
 
 				var maxColumn = document.createElement('td');
-				maxColumn.appendChild(document.createTextNode(common.getExperimentMax(experiment) + 'ms'));
+				maxColumn.innerHTML = common.formatTestTime(common.getExperimentMax(raportRef));
 
 				var avgColumn = document.createElement('td');
-				avgColumn.appendChild(document.createTextNode(common.getExperimentAvg(experiment) + 'ms'));
+				avgColumn.innerHTML = common.formatTestTime(common.getExperimentAvg(raportRef));
 
 				tr.appendChild(nameColumn);
 				tr.appendChild(minColumn);

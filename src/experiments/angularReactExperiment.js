@@ -5,26 +5,65 @@ app.experiments.angularReact = (function () {
 	var ExperimentComponent = app.react.ExperimentComponent;
 	var rootElement = document.getElementById('angularReactApp');
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
+	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var cleanListener = rootElementId + 'clean';
-	var runListener = rootElementId + 'run';
+	var runCreateListener = rootElementId + 'runCreate';
+	var runAppendListener = rootElementId + 'runAppend';
 	var resultListener = rootElementId + 'result';
 		
 	function AngularReactExperiment() {
 		var self = this;
-		this.name = name;
 		var scope;
+		this.name = name;
 
-		this.run = function () {
-			return new Promise(function (resolve) {
-				var eventHandler = function (e) {
-					rootElement.removeEventListener(runListener, eventHandler);
-					e.preventDefault();
-					resolve();
-				};
+		this.runCreate = function (saveRaport) {
+			return function () {
+				saveRaport = saveRaport !== undefined ? saveRaport : true;
 
-				rootElement.addEventListener(runListener, eventHandler);
-				scope.$emit('run');
-			});
+				return new Promise(function (resolve) {
+					var eventHandler = function (e) {
+						rootElement.removeEventListener(runCreateListener, eventHandler);
+						e.preventDefault();
+
+						var testTime = e.detail.testTime;
+						testTimeElement.innerHTML = common.formatTestTime(testTime);
+
+						if (saveRaport) {
+							self.raports.createOperations.push(testTime);
+						}
+
+						resolve();
+					};
+
+					rootElement.addEventListener(runCreateListener, eventHandler);
+					scope.$emit('runCreate');
+				});
+			};
+		};
+
+		this.runAppend = function (saveRaport) {
+			return function () {
+				saveRaport = saveRaport !== undefined ? saveRaport : true;
+
+				return new Promise(function (resolve) {
+					var eventHandler = function (e) {
+						rootElement.removeEventListener(runAppendListener, eventHandler);
+						e.preventDefault();
+
+						var testTime = e.detail.testTime;
+						testTimeElement.innerHTML = common.formatTestTime(testTime);
+
+						if (saveRaport) {
+							self.raports.appendOperations.push(testTime);
+						}
+
+						resolve();
+					};
+
+					rootElement.addEventListener(runAppendListener, eventHandler);
+					scope.$emit('runAppend');
+				});
+			};
 		};
 
 		this.clean = function () {
@@ -58,26 +97,6 @@ app.experiments.angularReact = (function () {
 				endTime: ''
 			};
 
-			vm.run = function () {
-				vm.clean()
-					.then(function () {
-						var eventHandler = function(e) {
-							rootElement.removeEventListener(resultListener, eventHandler);
-							e.preventDefault();
-							self.raports.push(e.detail.testTime);
-							$scope.data.testTime = common.formatTestTime(e.detail.testTime);
-							rootElement.dispatchEvent(new CustomEvent(runListener));
-						};
-
-						rootElement.addEventListener(resultListener, eventHandler);
-
-						$timeout(function () {
-							$scope.data.startTime = Date.now();
-							$scope.data.records = app.getData();
-						});
-					});
-			};
-
 			$scope.$watchCollection('data.records', function (records) {
 				var eventHandler = function(e) {
 					rootElement.removeEventListener(rootElementId, eventHandler);
@@ -87,7 +106,7 @@ app.experiments.angularReact = (function () {
 
 				rootElement.addEventListener(rootElementId, eventHandler);
 
-				var component = React.createElement(ExperimentComponent, {data: records || [], rootId: rootElementId});
+				var component = React.createElement(ExperimentComponent, {data: records || [], rootId: rootElementId, eventName: rootElementId});
 				ReactDOM.render(component, collectionRootElement);
 			});
 
@@ -95,8 +114,12 @@ app.experiments.angularReact = (function () {
 			  ReactDOM.unmountComponentAtNode(collectionRootElement);
 			});
 
-			$scope.$on('run', function () {
-				vm.run();
+			$scope.$on('runCreate', function () {
+				vm.runCreate();
+			});
+
+			$scope.$on('runAppend', function () {
+				vm.runAppend();
 			});
 
 			$scope.$on('clean', function () {
@@ -112,6 +135,51 @@ app.experiments.angularReact = (function () {
 						$scope.data.records = [];
 						resolve();
 					});
+				});
+			};
+
+			vm.runCreate = function () {
+				return vm.clean()
+					.then(function () {
+						var eventHandler = function (e) {
+							rootElement.removeEventListener(resultListener, eventHandler);
+							e.preventDefault();
+							rootElement.dispatchEvent(new CustomEvent(runCreateListener, e));
+						};
+
+						rootElement.addEventListener(resultListener, eventHandler);
+
+						$timeout(function () {
+							$scope.data.startTime = Date.now();
+							$scope.data.records = app.getData();
+						});
+					});
+			};
+
+			vm.runAppend = function () {
+				return new Promise(function (resolve) {
+					var eventHandler = function (e) {
+						rootElement.removeEventListener(runCreateListener, eventHandler);
+						e.preventDefault();
+
+						$timeout(function () {
+							var dataSet = $scope.data.records.concat(app.genDataSet());
+
+							var resultEventHandler = function (e) {
+								rootElement.removeEventListener(resultListener, resultEventHandler);
+								e.preventDefault();
+								rootElement.dispatchEvent(new CustomEvent(runAppendListener, e));
+							};
+
+							rootElement.addEventListener(resultListener, resultEventHandler);
+
+							$scope.data.startTime = Date.now();
+							$scope.data.records = dataSet;
+						});
+					};
+
+					rootElement.addEventListener(runCreateListener, eventHandler);
+					vm.runCreate();
 				});
 			};
 		}
