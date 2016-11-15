@@ -4,6 +4,7 @@ app.experiments.vanilla = (function () {
 	var common = app.common;
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
+	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
 
 	function VanillaExperiment() {
 		var self = this;
@@ -123,6 +124,7 @@ app.experiments.vanilla = (function () {
 							}
 
 							testTimeElement.innerHTML = common.formatTestTime(testTime);
+							testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 							resolve();
 					});
 				});
@@ -155,6 +157,7 @@ app.experiments.vanilla = (function () {
 						}
 
 						testTimeElement.innerHTML = common.formatTestTime(testTime);
+						testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 				});
 			};
 		};

@@ -5,14 +5,17 @@ app.experiments.angular = (function () {
 	var rootElement = document.getElementById(rootElementId);
 	var contentElement = rootElement.querySelector('.content');
 	var testTimeElement = common.getTestTimeElement(rootElementId);
+	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
 	var cleanListener = rootElementId + 'clean';
 	var runCreateListener = rootElementId + 'runCreate';
+	var runCreateHelpListener = rootElementId + 'runCreateHelp';
 	var runAppendListener = rootElementId + 'runAppend';
 
 	function AngularExperiment() {
 		var self = this;
 		var scope;
 		this.name = name;
+		var isRunning = false;
 
 		angular
 			.module('angularApp', [])
@@ -33,11 +36,13 @@ app.experiments.angular = (function () {
 
 						var testTime = e.detail.testTime;
 						testTimeElement.innerHTML = common.formatTestTime(testTime);
+						testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 
 						if (saveRaport) {
 							self.raports.createOperations.push(testTime);
 						}
 
+						isRunning = false;
 						resolve();
 					};
 
@@ -58,11 +63,13 @@ app.experiments.angular = (function () {
 
 						var testTime = e.detail.testTime;
 						testTimeElement.innerHTML = common.formatTestTime(testTime);
+						testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 
 						if (saveRaport) {
 							self.raports.appendOperations.push(testTime);
 						}
 
+						isRunning = false;
 						resolve();
 					};
 
@@ -96,19 +103,8 @@ app.experiments.angular = (function () {
 				endTime: null
 			};
 
-			$scope.$on('finished', function (e, endTime) {
-				var testTime = common.calculateTestTime(vm.data.startTime, endTime);
-
-				if (vm.data.records.length > app.getData().length) {
-					rootElement.dispatchEvent(new CustomEvent(runAppendListener, {detail: {testTime: testTime}}));
-
-				} else {
-					rootElement.dispatchEvent(new CustomEvent(runCreateListener, {detail: {testTime: testTime}}));
-				}
-			});
-
 			$scope.$on('runCreate', function () {
-				vm.runCreate();
+				vm.runCreate(true);
 			});
 
 			$scope.$on('runAppend', function () {
@@ -118,6 +114,27 @@ app.experiments.angular = (function () {
 			$scope.$on('clean', function () {
 				vm.clean();
 			});
+
+			vm.$doCheck = function () {
+				// check if child components are fully initiated
+				if (isRunning) {
+					var recordId = contentElement.querySelector('.record .record-id span');
+
+					if (recordId &&
+							contentElement.querySelectorAll('.record').length === vm.data.records.length &&
+							recordId.innerText === vm.data.records[0].id.toString()) {
+						var endTime = Date.now();
+						var testTime = common.calculateTestTime(vm.data.startTime, endTime);
+
+						if (vm.data.records.length > app.getData().length) {
+							rootElement.dispatchEvent(new CustomEvent(runAppendListener, {detail: {testTime: testTime}}));
+
+						} else {
+							rootElement.dispatchEvent(new CustomEvent(runCreateListener, {detail: {testTime: testTime}}));
+						}
+					}
+				}
+			};
 
 			vm.clean = function () {
 				return new Promise(function (resolve) {
@@ -132,13 +149,15 @@ app.experiments.angular = (function () {
 				});
 			};
 
-			vm.runCreate = function () {
+			vm.runCreate = function (runningState) {
 				return vm.clean()
 					.then(function () {
 						return new Promise(function (resolve) {
 							$timeout(function () {
+								isRunning = runningState;
 								vm.data.startTime = Date.now();
 							  vm.data.records = app.getData();
+							  rootElement.dispatchEvent(new CustomEvent(runCreateHelpListener));
 							  resolve();
 							});
 						});
@@ -148,19 +167,20 @@ app.experiments.angular = (function () {
 			vm.runAppend = function () {
 				return new Promise(function (resolve) {
 					var eventHandler = function (e) {
-						rootElement.removeEventListener(runCreateListener, eventHandler);
+						rootElement.removeEventListener(runCreateHelpListener, eventHandler);
 						e.preventDefault();
 
 						$timeout(function () {
 							var dataSet = vm.data.records.concat(app.genDataSet());
+							isRunning = true;
 							vm.data.startTime = Date.now();
 						  vm.data.records = dataSet;
 						  resolve();
 						});
 					};
 
-					rootElement.addEventListener(runCreateListener, eventHandler);
-					vm.runCreate();
+					rootElement.addEventListener(runCreateHelpListener, eventHandler);
+					vm.runCreate(false);
 				});
 			};
 		}

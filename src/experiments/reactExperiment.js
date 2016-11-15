@@ -6,6 +6,7 @@ app.experiments.react = (function () {
 	var rootElement = document.getElementById(rootElementId);
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
+	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
 	var runCreateListener = rootElementId + 'runCreate';
 	var runAppendListener = rootElementId + 'runAppend';
 	var cleanListener = rootElementId + 'clean';
@@ -27,6 +28,7 @@ app.experiments.react = (function () {
 
 								var testTime = e.detail.testTime;
 								testTimeElement.innerHTML = common.formatTestTime(testTime);
+								testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 
 								if (saveRaport) {
 									self.raports.createOperations.push(testTime);
@@ -57,6 +59,7 @@ app.experiments.react = (function () {
 
 							var testTime = e.detail.testTime;
 							testTimeElement.innerHTML = common.formatTestTime(testTime);
+							testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 
 							if (saveRaport) {
 								self.raports.appendOperations.push(testTime);

@@ -83,7 +83,8 @@
 							<button class="button-primary" onclick="app.experiments.vanilla.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
-							Result: <span class="test-time"></span>
+							<div>Result: <span class="test-time"></span></div>
+							<div>Elements: <span class="test-elements"></span></div>
 						</div>
 						<div class="content"></div>
 					</div>
@@ -99,7 +100,8 @@
 							<button class="button-primary" onclick="app.experiments.angular.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
-							Result: <span class="test-time"></span>
+							<div>Result: <span class="test-time"></span></div>
+							<div>Elements: <span class="test-elements"></span></div>
 						</div>
 						<div class="content">
 							<div ng-repeat="record in ctrl.data.records track by record.id" on-finish="finished">
@@ -119,7 +121,8 @@
 							<button class="button-primary" onclick="app.experiments.react.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
-							Result: <span class="test-time"></span>
+							<div>Result: <span class="test-time"></span></div>
+							<div>Elements: <span class="test-elements"></span></div>
 						</div>
 						<div class="content"></div>
 					</div>
@@ -135,7 +138,8 @@
 							<button class="button-primary" onclick="app.experiments.angularReact.runAppend(false)()">Append Test</button>
 						</div>
 						<div class="results">
-							Result: <span class="test-time"></span>
+							<div>Result: <span class="test-time"></span></div>
+							<div>Elements: <span class="test-elements"></span></div>
 						</div>
 						<div class="content"></div>
 					</div>

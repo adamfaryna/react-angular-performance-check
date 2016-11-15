@@ -6,6 +6,7 @@ app.experiments.angularReact = (function () {
 	var rootElement = document.getElementById('angularReactApp');
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
+	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
 	var cleanListener = rootElementId + 'clean';
 	var runCreateListener = rootElementId + 'runCreate';
 	var runAppendListener = rootElementId + 'runAppend';
@@ -27,6 +28,7 @@ app.experiments.angularReact = (function () {
 
 						var testTime = e.detail.testTime;
 						testTimeElement.innerHTML = common.formatTestTime(testTime);
+						testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 
 						if (saveRaport) {
 							self.raports.createOperations.push(testTime);
@@ -52,6 +54,7 @@ app.experiments.angularReact = (function () {
 
 						var testTime = e.detail.testTime;
 						testTimeElement.innerHTML = common.formatTestTime(testTime);
+						testElementsCountElement.innerHTML = common.getTestElementsCount(rootElementId);
 
 						if (saveRaport) {
 							self.raports.appendOperations.push(testTime);
