@@ -1,14 +1,11 @@
 {
   "name": "react-angular-performance-check",
   "version": "1.0.0",
-  "description": "Simple app that compare performance of Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid app.",
+  "description": "Simple app that compares performance of Angular.js ngRepeat element generation vs React.js vs Angular.js / React.js hybrid.",
   "author": "Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)",
   "license": "ISC",
-  "main": "index.js",
   "scripts": {
-    "start": "browser-sync start -s 'src' -f 'src' --reload-delay 2000",
-    "dist": "node index.js",
-    "devel": "nodemon index.js",
+    "start": "nodemon bin/www",
     "postinstall": "bower install"
   },
   "repository": {
@@ -17,10 +14,14 @@
   },
   "dependencies": {
     "bower": "^1.8.0",
-    "browser-sync": "^2.17.5",
-    "connect": "^3.5.0",
+    "express": "^4.14.0",
     "foreman": "^2.0.0",
+    "morgan": "^1.7.0",
     "nodemon": "^1.11.0",
-    "serve-static": "^1.11.1"
+    "pug": "^2.0.0-beta6",
+    "serve-favicon": "^2.3.2",
+    "serve-static": "^1.11.1",
+    "stylus": "^0.54.5",
+    "autoprefixer-stylus": "^0.11.0"
   }
 }

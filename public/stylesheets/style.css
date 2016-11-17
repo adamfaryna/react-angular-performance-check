@@ -1,0 +1,164 @@
+* {
+  letter-spacing: 0.1rem;
+}
+body .container {
+  width: 100%;
+}
+a {
+  color: #00b7ff;
+}
+h1 {
+  font-size: 4rem;
+}
+h2 {
+  font-size: 3rem;
+}
+div {
+  border-radius: 4px;
+}
+.row {
+  margin: 10px 0;
+}
+.row .header h2 {
+  text-align: center;
+}
+#header {
+  text-align: center;
+  width: 100%;
+}
+#header div {
+  margin: 10px;
+}
+#testsControls {
+  border: 1px solid;
+}
+#testsControls .log {
+  text-align: center;
+}
+#testsControls form {
+  padding: 15px 15px 0 15px;
+  overflow: auto;
+  margin-bottom: 0px;
+}
+#testsControls form div {
+  overflow: auto;
+}
+#testsControls form label {
+  float: left;
+  margin-top: 5px;
+}
+#testsControls form input {
+  width: 230px;
+  float: right;
+}
+#testsControls form .buttons {
+  text-align: center;
+  clear: both;
+}
+#testsControls form .buttons button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.experiments-container {
+  margin-top: 20px;
+}
+.experiments-container .experiment {
+  border: 1px solid;
+  background: #eee;
+  letter-spacing: 0.1rem;
+  border-radius: 4px;
+}
+.experiments-container .experiment .header {
+  text-align: center;
+  width: 100%;
+  background: #59d809;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.experiments-container .experiment .header h3 {
+  font-size: 22px;
+  padding: 5px 0;
+  color: #fff;
+  letter-spacing: 0.2rem;
+  border-bottom: 1px solid #000;
+}
+.experiments-container .experiment .context {
+  padding: 0 10px 10px 10px;
+}
+.experiments-container .experiment .context .controls {
+  text-align: center;
+}
+.experiments-container .experiment .context .content {
+  border: 1px solid;
+  height: 200px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: #fff;
+  padding: 5px;
+}
+#raport {
+  border: 1px solid #000;
+  margin: 20px 0;
+}
+#raport .header {
+  text-align: center;
+}
+#raport table {
+  margin: auto;
+  width: 100%;
+}
+#raport table tbody tr td {
+  padding: 5px;
+}
+tr.label {
+  font-weight: bold;
+}
+#createRaportTable,
+#appendRaportTable {
+  margin: auto;
+  padding: 10px;
+}
+#progressBar.hidden,
+.hidden {
+  display: none;
+}
+#progressBar {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+}
+#progressBar .shadow-pane {
+  background: #b6b6b6;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  opacity: 0.5;
+}
+#progressBar .shadow-pane .box {
+  position: relative;
+  background: #b6b6b6;
+  width: 100%;
+  height: 100%;
+  top: 35%;
+}
+#footer {
+  text-align: center;
+  margin-top: 15px;
+}
+.record {
+  border: 1px solid #000;
+  overflow: auto;
+  margin: 10px 0;
+  padding: 10px;
+}
+.record .record-sm img {
+  display: inline-block;
+}
+.record a {
+  margin: 5px;
+  text-decoration: none;
+}

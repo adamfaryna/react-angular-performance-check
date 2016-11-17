@@ -1,0 +1,19 @@
+mixin record(name = 'Name', surname = 'Surname', id = 'ID', description = 'Description')
+	.record
+		.record-avatar
+			img(src="images/avatar.png")
+		.record-data
+			.record-name
+				span #{name}&nbsp;
+				span #{surname}
+			.record-id
+				span #{id}
+			.record-desc
+				span #{description}
+			.record-sm
+				a(href="https://www.facebook.com/appdy.net")
+					img(src="images/facebook.png")
+				a(href="https://twitter.com/AppdyApp")
+					img(src="images/twitter.png")
+				a(href="https://linkedin.com")
+					img(src="images/linkedin.png")
