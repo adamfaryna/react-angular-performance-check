@@ -42,7 +42,6 @@ app.get('/', function(req, res, next) {
 });
 
 app.get('/partials/:name', function(req, res, next) {
-	console.log(req);
 	res.render('partials/' + req.params.name);
 });
 
