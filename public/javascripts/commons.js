@@ -5,17 +5,23 @@ app.common = {
 	formatTestTime: function(testTime) {
 		return testTime + 'ms';
 	},
+	getExperimentsRootElement: function() {
+		return document.getElementById('experimentsContainer');
+	},
+	getExperimentRootElement: function(rootId) {
+		return this.getExperimentsRootElement().querySelector(rootId);
+	},
 	getTestTimeElement: function(rootId) {
-		return document.getElementById(rootId).querySelector('.test-time');
+		return this.getExperimentsRootElement().querySelector(rootId + ' .test-time');
 	},
 	getTestElementsCountElement: function(rootId) {
-		return document.getElementById(rootId).querySelector('.test-elements');
+		return this.getExperimentsRootElement().querySelector(rootId + ' .test-elements');
 	},
 	getTestElementsCount: function(rootId) {
-		return document.getElementById(rootId).querySelectorAll('.content .record').length;
+		return this.getExperimentsRootElement().querySelectorAll(rootId + ' .content .record').length;
 	},
 	getCollectionRootElement: function(rootId) {
-		return document.getElementById(rootId).querySelector('.content');
+		return this.getExperimentsRootElement().querySelector(rootId + ' .content');
 	},
 	getExperimentAvg: function(collection) {
 		return (collection.reduce(function (a, b) {

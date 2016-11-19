@@ -1,4 +1,4 @@
-app.BasicExperiment = (function () {
+app.experiment.BasicExperiment = (function () {
 	function BasicExperiment() {
 		this.raports = {
 			createOperations: [],
@@ -8,11 +8,11 @@ app.BasicExperiment = (function () {
 
 	BasicExperiment.prototype.runCreate = function runCreate() {
 		throw new Error('Method not defined!');
-	}
+	};
 
 	BasicExperiment.prototype.runAppend = function runAppend() {
 		throw new Error('Method not defined!');
-	}
+	};
 
 	BasicExperiment.prototype.clean = function clean() {
 		throw new Error('Method not defined!');

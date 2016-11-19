@@ -1,41 +1,10 @@
-include mixins.pug
+extends basicLayout
 
-doctype html
-html
-	head
-		title Javascript Frameworks Performance Test 1.0
-		meta(charset="utf-8")
-		meta(name="description" content="Angular & React - Performance Comparison")
-		meta(name="viewport" content="width=device-width")
-		link(rel="stylesheet" href="bower_components/skeleton/css/skeleton.css")
-		link(rel='stylesheet' href='stylesheets/style.css')
-	body
-		block content
-
-		footer#footer.row
-			div.columns.twelve
-				a(href="http://appdy.net") Made by Appdy.net
-
-		#progressBar.hidden
-			.shadow-pane
-				.box
-					img(src="images/loading-icon.gif")
-					div
-						span Please wait...
-
-		script(src="bower_components/angular/angular.min.js")
-		script(src="bower_components/react/react.js")
-		script(src="bower_components/react/react-dom.min.js")
-		script(src="javascripts/domExtend.js")
-		script(src="javascripts/index.js")
-		script(src="javascripts/commons.js")
-		script(src="javascripts/angular/record.directive.js")
-		script(src="javascripts/react/experimentComponentRecord.js")
-		script(src="javascripts/react/experimentComponent.js")
-		script(src="javascripts/experiments/basicExperiment.js")
-		script(src="javascripts/experiments/vanillaExperiment.js")
-		script(src="javascripts/experiments/angularExperiment.js")
-		script(src="javascripts/experiments/reactExperiment.js")
-		script(src="javascripts/experiments/angularReactExperiment.js")
-		script(src="javascripts/experiments/batch.js")
-			
+block content
+	.container
+		block header
+		block controls
+		block sample
+		block experiments
+		block raport
+		block footer

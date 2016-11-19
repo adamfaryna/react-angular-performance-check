@@ -28,7 +28,7 @@ app.use('/public', function(req, res, next) {
     var result = req.url.match(/.*\.(maps|pug|styl)$/);
 
     if (result) {
-      return res.status(403).end('403 Forbidden')
+      return res.status(403).end('403 Forbidden');
     }
   }
   

@@ -1,111 +1,83 @@
 extends layout
 
-block content
-	.container
-		#header.row.column.one
-			h1 Javascript Frameworks Performance Test 1.0
+block header
+	#header.row.column.one
+		h1 Javascript Frameworks Performance Test 1.0
 
-		.row
-			.columns.three &nbsp;
-			#testsControls.tests-controls.columns.six
-				form#form(action="#" onsubmit="return false;")
-					div
-						label(for="dataSetSize") Data set size:
-						input#dataSetSize(type="number" placeholder="Default 200")
-					div
-						label(for="iterationsNumber") Number of tests:
-						input#iterationsNumber(type="number" placeholder="Default 20")
-					.log
-					.buttons
-						button.button-primary(type="submit" onclick="app.prepareBaseDataSet();") Create Data Set
-						button.button-primary(type="submit" onclick="app.batch.run();") Do Experiments!
-			.columns.three &nbsp;
+block controls
+	.row
+		.columns.three &nbsp;
+		#testsControls.tests-controls.columns.six
+			form#form(action="#" onsubmit="return false;")
+				div
+					label(for="dataSetSize") Data set size:
+					input#dataSetSize(type="number" placeholder="Default 200")
+				div
+					label(for="iterationsNumber") Number of tests:
+					input#iterationsNumber(type="number" placeholder="Default 20")
+				.log
+				.buttons
+					button.button-primary(type="submit" onclick="app.prepareBaseDataSet();") Create Data Set
+					button.button-primary(type="submit" onclick="app.experiment.batch.run();") Do Experiments!
+		.columns.three &nbsp;
 
-		#examplePreview.row
-			.columns.four &nbsp;
-			.columns.four
-				.header
-					h2 Sample record
-				+record()
-			.columns.four &nbsp;
+block sample
+	#examplePreview.row
+		.columns.four &nbsp;
+		.columns.four
+			.header
+				h2 Sample record
+			+record()
+		.columns.four &nbsp;
 
-		.experiments-container.container.row
-			#vanillaApp.experiment.columns.three
-				.header
-					h3 Vanilla
-				.context
-					.controls
-						button.button-primary(onclick="app.experiments.vanilla.runCreate(false)()") Insert Test
-						button.button-primary(onclick="app.experiments.vanilla.runAppend(false)()") Append Test
-					.results
-						div Result:
-							span.test-time
-						div Elements:
-							span.test-elements
-					.content
+block experiments
+	#experimentsContainer.container.row
+		+experiment('vanilla-app', 'Vanilla',
+			'app.experiment.framework.vanilla.runCreate(false)()',
+			'app.experiment.framework.vanilla.runAppend(false)()'
+		)
 
-			#angularApp.experiment.columns.three(ng-controller="mainController as ctrl")
-				.header
-					h3 Angular
-				.context
-					.controls
-						button.button-primary(onclick="app.experiments.angular.runCreate(false)()") Insert Test
-						button.button-primary(onclick="app.experiments.angular.runAppend(false)()") Append Test
-					.results
-						div Result:&nbsp;
-							span.test-time
-						div Elements:&nbsp;
-							span.test-elements
-					.content
-						my-record(data="{{record}}" ng-repeat="record in ctrl.data.records track by record.id")
+		+experiment('angular-app', 'Angular',
+			'app.experiment.framework.angular.runCreate(false)()',
+			'app.experiment.framework.angular.runAppend(false)()'
+		)(ng-controller='mainController as ctrl')
+			my-record(data="{{record}}" ng-repeat="record in ctrl.data.records track by record.id")
 
-			#reactApp.experiment.columns.three
-				.header
-					h3 React
-				.context
-					.controls
-						button.button-primary(onclick="app.experiments.react.runCreate(false)()") Create Test
-						button.button-primary(onclick="app.experiments.react.runAppend(false)()") Append Test
-					.results
-						div Result:&nbsp;
-							span.test-time
-						div Elements:&nbsp;
-							span.test-elements
-					.content
+		+experiment('react-app', 'React',
+			'app.experiment.framework.react.runCreate(false)()',
+			'app.experiment.framework.react.runAppend(false)()'
+		)
 
-			#angularReactApp.experiment.columns.three(ng-controller="mainController as ctrl")
-				.header
-					h3 Angular &amp; React
-				.context
-					.controls
-						button.button-primary(onclick="app.experiments.angularReact.runCreate(false)()") Create Test
-						button.button-primary(onclick="app.experiments.angularReact.runAppend(false)()") Append Test
-					.results
-						div Result:&nbsp;
-							span.test-time
-						div Elements:&nbsp;
-							span.test-elements
-					.content
+		+experiment('angular-react-app', 'Angular & React',
+			'app.experiment.framework.angularReact.runCreate(false)()',
+			'app.experiment.framework.angularReact.runAppend(false)()'
+		)(ng-controller='mainController as ctrl')
 
-		#raport.tests-report.row.hidden
-			#createRaportTable
-				.header
-					h3 Raport for Create Elements
-				table
-					thead
-						th Name
-						th Minimum Time
-						th Maximum Time
-						th Average Time
-					tbody
+block raport
+	#raport.tests-report.row.hidden
+		#createRaportTable
+			.header
+				h3 Raport for Create Elements
+			table
+				thead
+					th Name
+					th Minimum Time
+					th Maximum Time
+					th Average Time
+				tbody
 
-			#appendRaportTable
-				.header
-					h3 Raport for Append Elements
-				table
-					thead
-						th Name
-						th Minimum Time
-						th Maximum Time
-						th Average Time
-					tbody
+		#appendRaportTable
+			.header
+				h3 Raport for Append Elements
+			table
+				thead
+					th Name
+					th Minimum Time
+					th Maximum Time
+					th Average Time
+				tbody
+
+block footer
+	footer#footer.row
+		div.columns.twelve
+			a(href="http://appdy.net") Made by Appdy.net

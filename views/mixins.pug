@@ -17,3 +17,19 @@ mixin record(name = 'Name', surname = 'Surname', id = 'ID', description = 'Descr
 					img(src="images/twitter.png")
 				a(href="https://linkedin.com")
 					img(src="images/linkedin.png")
+
+mixin experiment(experimentClass, name, insertAction, appendAction)
+	div(class=experimentClass + ' experiment columns three')&attributes(attributes)
+		.header
+			h3 #{name}
+		.context
+			.controls
+				button.button-primary(onclick=insertAction) Insert Test
+				button.button-primary(onclick=appendAction) Append Test
+			.results
+				div Result:
+					span.test-time
+				div Elements:
+					span.test-elements
+			.content
+				block

@@ -5,6 +5,11 @@ var app = (function () {
 	var log = testsControls.querySelector('.log');
 	var dataRecords = [];
 
+	var defaults = {
+		iterations: 20,
+		dataSetSize: 200
+	};
+
 	var nameIndex = 0;
 	var surnameIndex = 0;
 	var descriptionIndex = 0;
@@ -33,7 +38,7 @@ var app = (function () {
 
 	function genDataSet() {
 		var dataSetSize = form.getElementsByTagName('input').namedItem('dataSetSize');
-		var dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : 200;
+		var dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : defaults.dataSetSize;
 		var data = [];
 
 		for (var i = 0; i !== dataSetSizeVal; i++) {
@@ -61,19 +66,22 @@ var app = (function () {
 	function hideProgressBar() {
 		return new Promise(function (resolve) {
 			progressBar.hide();
-			resolve();
+			setTimeout(resolve, 100);
 		});
 	}
 
 	prepareBaseDataSet();
 
 	return {
+		defaults: defaults,
 		getData: getData,
 		genDataSet: genDataSet,
 		prepareBaseDataSet: prepareBaseDataSet,
 		showProgressBar: showProgressBar,
 		hideProgressBar: hideProgressBar,
-		experiments: {},
+		experiment: {
+			framework: {}
+		},
 		angular: {},
 		react: {}
 	};

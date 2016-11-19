@@ -1,8 +1,8 @@
-app.experiments.angular = (function () {
+app.experiment.framework.angular = (function () {
 	var name = 'Angular';
-	var rootElementId = 'angularApp';
+	var rootElementId = '.angular-app';
 	var common = app.common;
-	var rootElement = document.getElementById(rootElementId);
+	var rootElement = common.getExperimentRootElement(rootElementId);
 	var contentElement = rootElement.querySelector('.content');
 	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
@@ -187,6 +187,6 @@ app.experiments.angular = (function () {
 		angular.bootstrap(rootElement, ['angularApp']);
 	}	
 
-	AngularExperiment.prototype = new app.BasicExperiment();
+	AngularExperiment.prototype = new app.experiment.BasicExperiment();
 	return new AngularExperiment();
 })();

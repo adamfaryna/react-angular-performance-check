@@ -1,4 +1,5 @@
 app.react.ExperimentComponent = (function () {
+	var common = app.common;
 	var startTime;
 	var ExperimentComponentRecord = app.react.ExperimentComponentRecord;
 
@@ -14,7 +15,7 @@ app.react.ExperimentComponent = (function () {
 			var testTime = app.common.calculateTestTime(startTime, endTime);
 
 			var event = new CustomEvent(this.props.eventName, {detail: {testTime: testTime}});
-			document.getElementById(this.props.rootId).dispatchEvent(event);
+			common.getExperimentRootElement(this.props.rootId).dispatchEvent(event);
 		},
 
 		render: function() {

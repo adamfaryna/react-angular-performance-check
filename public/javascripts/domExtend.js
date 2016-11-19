@@ -33,4 +33,9 @@ Element.prototype.hide = function() {
 Element.prototype.show = function() {
 	this.removeClass('hidden');
 };
-	
+
+Node.prototype.removeAllChilds = function () {
+	while(this.children.length !== 0) {
+		this.removeChild(this.children[0]);
+	}
+};

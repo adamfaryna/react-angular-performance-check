@@ -1,26 +1,21 @@
-app.batch = (function () {
+app.experiment.batch = (function () {
 	var common = app.common;
 	var form = document.getElementById('form');
 	var raport = document.getElementById('raport');
 	var raportBodyCreate = raport.querySelector('#createRaportTable tbody');
 	var raportBodyAppend = raport.querySelector('#appendRaportTable tbody');
 	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
-	var experimentsNames = ['vanilla', 'angular', 'react', 'angularReact'];
+	var experimentFrameworks = app.experiment.framework;
 
 	function cleanReport() {
 		return new Promise(function (resolve) {
-			while(raportBodyCreate.children.length !== 0) {
-				raportBodyCreate.removeChild(raportBodyCreate.children[0]);
-			}
+			raportBodyCreate.removeAllChilds();
+			raportBodyAppend.removeAllChilds();
 
-			while(raportBodyAppend.children.length !== 0) {
-				raportBodyAppend.removeChild(raportBodyAppend.children[0]);
-			}
-
-			for (var key in experimentsNames) {
-				if (app.experiments.hasOwnProperty(experimentsNames[key])) {
-					app.experiments[experimentsNames[key]].clean();
-					app.experiments[experimentsNames[key]].cleanRaport();
+			for (var key in experimentFrameworks) {
+				if (experimentFrameworks.hasOwnProperty(key)) {
+					experimentFrameworks[key].clean();
+					experimentFrameworks[key].cleanRaport();
 				}
 			}
 
@@ -29,16 +24,16 @@ app.batch = (function () {
 	}
 
 	function performExperiments() {
-		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : 20;
+		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : app.defaults.iterations;
 
 		var promise = cleanReport()
 			.then(showReport)
 			.then(app.showProgressBar)
 			.then(app.prepareBaseDataSet);
 
-		for (var key in experimentsNames) {
-			if (app.experiments.hasOwnProperty(experimentsNames[key])) {
-				var experiment = app.experiments[experimentsNames[key]];
+		for (var key in experimentFrameworks) {
+			if (experimentFrameworks.hasOwnProperty(key)) {
+				var experiment = experimentFrameworks[key];
 				experiment.clean();
 
 				for (var i = 0; i !== iterationsNumberVal; i++) {
@@ -74,7 +69,6 @@ app.batch = (function () {
 
 				var tr = document.createElement('tr');
 
-				var content;
 				var nameColumn = document.createElement('td');
 				nameColumn.innerHTML = experiment.name;
 

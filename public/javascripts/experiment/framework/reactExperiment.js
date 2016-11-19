@@ -1,9 +1,9 @@
-app.experiments.react = (function () {
+app.experiment.framework.react = (function () {
 	var name = 'React';
-	var rootElementId = 'reactApp';
+	var rootElementId = '.react-app';
 	var common = app.common;
 	var ExperimentComponent = app.react.ExperimentComponent;
-	var rootElement = document.getElementById(rootElementId);
+	var rootElement = common.getExperimentRootElement(rootElementId);
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
@@ -102,6 +102,6 @@ app.experiments.react = (function () {
 		this.clean();
 	}
 
-	ReactExperiment.prototype = new app.BasicExperiment();
+	ReactExperiment.prototype = new app.experiment.BasicExperiment();
 	return new ReactExperiment();
 })();
