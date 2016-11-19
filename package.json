@@ -5,11 +5,12 @@
   "author": "Adam Faryna <adamfaryna@appdy.net> (http://appdy.net)",
   "license": "ISC",
   "engines": {
-  	"node": "6.3.1"
+    "node": "6.3.1"
   },
   "scripts": {
     "start": "nodemon bin/www",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "lint": "jshint public/javascripts/**/*.js *.js bin/**/*"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,8 @@
     "serve-static": "^1.11.1",
     "stylus": "^0.54.5",
     "autoprefixer-stylus": "^0.11.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.4"
   }
 }
