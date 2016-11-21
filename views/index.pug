@@ -31,27 +31,34 @@ block sample
 		.columns.four &nbsp;
 
 block experiments
-	#experimentsContainer.container.row
-		+experiment('vanilla-app', 'Vanilla',
-			'app.experiment.framework.vanilla.runCreate(false)()',
-			'app.experiment.framework.vanilla.runAppend(false)()'
-		)
+	#experimentsContainer.container
+		.row
+			+experiment('vanilla-app', 'Vanilla',
+				'app.experiment.framework.vanilla.runCreate(false)()',
+				'app.experiment.framework.vanilla.runAppend(false)()'
+			)
 
-		+experiment('angular-app', 'Angular',
-			'app.experiment.framework.angular.runCreate(false)()',
-			'app.experiment.framework.angular.runAppend(false)()'
-		)(ng-controller='mainController as ctrl')
-			my-record(data="{{record}}" ng-repeat="record in ctrl.data.records track by record.id")
+			+experiment('angular-app', 'Angular',
+				'app.experiment.framework.angular.runCreate(false)()',
+				'app.experiment.framework.angular.runAppend(false)()'
+			)(ng-controller='mainController as ctrl')
+				my-record(data="{{record}}" ng-repeat="record in ctrl.data.records track by record.id")
 
-		+experiment('react-app', 'React',
-			'app.experiment.framework.react.runCreate(false)()',
-			'app.experiment.framework.react.runAppend(false)()'
-		)
+			+experiment('angular-app-without-trackby', 'Angular No Track',
+				'app.experiment.framework.angularTrackBy.runCreate(false)()',
+				'app.experiment.framework.angularTrackBy.runAppend(false)()'
+			)(ng-controller='mainController as ctrl')
+				my-record(data="{{record}}" ng-repeat="record in ctrl.data.records")
 
-		+experiment('angular-react-app', 'Angular & React',
-			'app.experiment.framework.angularReact.runCreate(false)()',
-			'app.experiment.framework.angularReact.runAppend(false)()'
-		)(ng-controller='mainController as ctrl')
+			+experiment('angular-react-app', 'Angular & React',
+				'app.experiment.framework.angularReact.runCreate(false)()',
+				'app.experiment.framework.angularReact.runAppend(false)()'
+			)(ng-controller='mainController as ctrl')
+		.row
+			+experiment('react-app', 'React',
+				'app.experiment.framework.react.runCreate(false)()',
+				'app.experiment.framework.react.runAppend(false)()'
+			)
 
 block raport
 	#raport.tests-report.row.hidden
