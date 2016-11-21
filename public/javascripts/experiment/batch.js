@@ -9,8 +9,8 @@ app.experiment.batch = (function () {
 
 	function cleanReport() {
 		return new Promise(function (resolve) {
-			raportBodyCreate.removeAllChilds();
-			raportBodyAppend.removeAllChilds();
+			common.dom.removeAllChilds(raportBodyCreate);
+			common.dom.removeAllChilds(raportBodyAppend);
 
 			for (var key in experimentFrameworks) {
 				if (experimentFrameworks.hasOwnProperty(key)) {
@@ -94,7 +94,7 @@ app.experiment.batch = (function () {
 
 	function showReport() {
 		return new Promise(function (resolve) {
-			raport.show();
+			common.dom.show(raport);
 			setTimeout(resolve, 50);
 		});
 	}

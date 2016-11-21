@@ -1,4 +1,5 @@
-var app = (function () {
+(function () {
+	var common = app.common;
 	var testsControls = document.getElementById('testsControls');
 	var progressBar = document.getElementById('progressBar');
 	var form = document.getElementById('form');
@@ -58,31 +59,24 @@ var app = (function () {
 
 	function showProgressBar() {
 		return new Promise(function (resolve) {
-			progressBar.show();
+			common.dom.show(progressBar);
 			setTimeout(resolve, 100);
 		});
 	}
 
 	function hideProgressBar() {
 		return new Promise(function (resolve) {
-			progressBar.hide();
+			common.dom.hide(progressBar);
 			setTimeout(resolve, 100);
 		});
 	}
 
 	prepareBaseDataSet();
 
-	return {
-		defaults: defaults,
-		getData: getData,
-		genDataSet: genDataSet,
-		prepareBaseDataSet: prepareBaseDataSet,
-		showProgressBar: showProgressBar,
-		hideProgressBar: hideProgressBar,
-		experiment: {
-			framework: {}
-		},
-		angular: {},
-		react: {}
-	};
+
+	app.getData = getData;
+	app.genDataSet = genDataSet;
+	app.prepareBaseDataSet = prepareBaseDataSet;
+	app.showProgressBar = showProgressBar;
+	app.hideProgressBar = hideProgressBar;
 })();
