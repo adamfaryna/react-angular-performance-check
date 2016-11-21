@@ -1,8 +1,7 @@
 const app = require('../public/javascripts/app');
-const chai = require('chai');
-const expect = chai.expect;
+const expect = require('chai').expect;
 
-describe.only('app', () => {
+describe('app', () => {
 	describe('"defaults" property', () => {
 		it('should contain property "iterations" equal "20"', () => {
 			expect(app.defaults.iterations).to.be.equal(20);
