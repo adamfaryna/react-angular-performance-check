@@ -12,7 +12,7 @@
     "debug": "nodemon --debug-brk main.js",
     "dist": "pm2 start main.js",
     "postinstall": "bower install",
-    "lint": "jshint public/javascripts/**/*.js *.js bin/**/*"
+    "lint": "jshint public/javascripts/**/*.js *.js bin/*"
   },
   "repository": {
     "type": "git",
