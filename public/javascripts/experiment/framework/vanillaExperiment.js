@@ -1,7 +1,25 @@
-app.experiment.framework.vanilla = (function () {
+(function () {
 	var name = 'Vanilla';
 	var rootElementId = '.vanilla-app';
-	var common = app.common;
+
+	var app,
+		common,
+		BasicExperiment,
+		TestTimePair;
+
+	if (typeof require === 'undefined') {
+		app = window.app;
+		common = window.app.common;
+		BasicExperiment = window.app.experiment.BasicExperiment;
+		TestTimePair = window.app.model.TestTimePair;
+
+	} else {
+		app = require('../../app');
+		common = require('../../commons');
+		BasicExperiment = require('../basicExperiment');
+		TestTimePair = require('../../model/testTimePair');
+	}
+
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
 	var testElementsCountElement = common.getTestElementsCountElement(rootElementId);
@@ -11,7 +29,7 @@ app.experiment.framework.vanilla = (function () {
 		this.name = name;	
 		
 		this.clean = function clean() {
-			return new Promise(function (resolve) {
+			return new Promise(function(resolve) {
 				while (collectionRootElement.firstChild) {
 					collectionRootElement.removeChild(collectionRootElement.firstChild);
 				}
@@ -98,13 +116,13 @@ app.experiment.framework.vanilla = (function () {
 			return record;
 		}
 
-		this.runCreate = function runCreate(saveRaport) {
+		this.runCreate = function(saveRaport) {
 			return function () {
 				saveRaport = saveRaport !== undefined ? saveRaport : true;
 
-				return new Promise(function (resolve) {
+				return new Promise(function(resolve) {
 					self.clean()
-						.then(function () {
+						.then(function() {
 							var data = app.getData();
 							var startTime = Date.now();
 							var fragment = document.createDocumentFragment();
@@ -117,7 +135,7 @@ app.experiment.framework.vanilla = (function () {
 							collectionRootElement.appendChild(fragment);
 
 							var endTime = Date.now();
-							var testTime = common.calculateTestTime(startTime, endTime);
+							var testTime = common.calculateTestTime(new TestTimePair(startTime, endTime));
 
 							if (saveRaport) {
 								self.raports.createOperations.push(testTime);
@@ -131,12 +149,12 @@ app.experiment.framework.vanilla = (function () {
 			}
 		};
 
-		this.runAppend = function runAppend(saveRaport) {
-			return function () {
+		this.runAppend = function(saveRaport) {
+			return function() {
 				saveRaport = saveRaport !== undefined ? saveRaport : true;
 
 				return self.runCreate(false)()
-					.then(function () {
+					.then(function() {
 						var data = app.genDataSet();
 						var startTime = Date.now();
 
@@ -150,7 +168,7 @@ app.experiment.framework.vanilla = (function () {
 						collectionRootElement.appendChild(fragment);
 
 						var endTime = Date.now();
-						var testTime = common.calculateTestTime(startTime, endTime);
+						var testTime = common.calculateTestTime(new TestTimePair(startTime, endTime));
 
 						if (saveRaport) {
 							self.raports.appendOperations.push(testTime);
@@ -163,6 +181,16 @@ app.experiment.framework.vanilla = (function () {
 		};
 	}
 
-	VanillaExperiment.prototype = new app.experiment.BasicExperiment();
-	return new VanillaExperiment();
+	VanillaExperiment.prototype = new BasicExperiment();
+	var vanillaExperiment = new VanillaExperiment();
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = vanillaExperiment;
+
+	} else if (window.app) {
+		app.experiment.framework.vanilla = vanillaExperiment;
+		
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

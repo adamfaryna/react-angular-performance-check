@@ -1,5 +1,5 @@
-app.react.ExperimentComponentRecord = (function () {
-	return React.createClass({
+(function () {
+	var ExperimentComponentRecord = React.createClass({
 		shouldComponentUpdate: function(nextProps, nextState) {
 			if (nextProps) {
 				return this.props.data.id === undefined || this.props.data.id === nextProps.data.id;
@@ -39,4 +39,14 @@ app.react.ExperimentComponentRecord = (function () {
 			);
 		}
 	});
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = ExperimentComponentRecord;
+
+	} else if (window.app) {
+		window.app.react.ExperimentComponentRecord = ExperimentComponentRecord;
+		
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

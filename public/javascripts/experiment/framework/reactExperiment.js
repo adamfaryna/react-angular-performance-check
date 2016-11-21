@@ -1,8 +1,25 @@
-app.experiment.framework.react = (function () {
+ (function () {
 	var name = 'React';
 	var rootElementId = '.react-app';
-	var common = app.common;
-	var ExperimentComponent = app.react.ExperimentComponent;
+
+	var app,
+		common,
+		ExperimentComponent,
+		BasicExperiment;
+
+	if (typeof require === 'undefined') {
+		app = window.app;
+		common = window.app.common;
+		ExperimentComponent = window.app.react.ExperimentComponent;
+		BasicExperiment = window.app.experiment.BasicExperiment;
+
+	} else {
+		app = require('../../app');
+		common = require('../../commons');
+		ExperimentComponent = require('../../react/experimentComponent');
+		BasicExperiment = require('../BasicExperiment');
+	}
+
 	var rootElement = common.getExperimentRootElement(rootElementId);
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
@@ -15,14 +32,14 @@ app.experiment.framework.react = (function () {
 		var self = this;
 		this.name = name;
 
-		this.runCreate = function (saveRaport) {
+		this.runCreate = function(saveRaport) {
 			return function () {
 				saveRaport = saveRaport !== undefined ? saveRaport : true;
 
-				return new Promise(function (resolve) {
+				return new Promise(function(resolve) {
 					self.clean()
 						.then(function () {
-							var eventHandler = function (e) {
+							var eventHandler = function(e) {
 								rootElement.removeEventListener(runCreateListener, eventHandler);
 								e.preventDefault();
 
@@ -44,16 +61,16 @@ app.experiment.framework.react = (function () {
 			};
 		};
 
-		this.runAppend = function (saveRaport) {
+		this.runAppend = function(saveRaport) {
 			return function () {
 				saveRaport = saveRaport !== undefined ? saveRaport : true;
 
-				return new Promise(function (resolve) {
-					var createEventHandler = function (e) {
+				return new Promise(function(resolve) {
+					var createEventHandler = function(e) {
 						rootElement.removeEventListener(runCreateListener, createEventHandler);
 						e.preventDefault();
 
-						var appendEventHandler = function (e) {
+						var appendEventHandler = function(e) {
 							rootElement.removeEventListener(runAppendListener, appendEventHandler);
 							e.preventDefault();
 
@@ -81,10 +98,10 @@ app.experiment.framework.react = (function () {
 		};
 
 		this.clean = function() {
-			return new Promise(function (resolve) {
+			return new Promise(function(resolve) {
 				testTimeElement.innerHTML = '';
 
-				var eventHandler = function (e) {
+				var eventHandler = function(e) {
 					rootElement.removeEventListener(cleanListener, eventHandler);
 					e.preventDefault();
 					resolve();
@@ -95,13 +112,23 @@ app.experiment.framework.react = (function () {
 			});
 		};
 
-		this.renderElement = function (data, eventName) {
+		this.renderElement = function(data, eventName) {
 			ReactDOM.render(React.createElement(ExperimentComponent, {data: data, rootId: rootElementId, eventName: eventName}), collectionRootElement);
 		};
 
 		this.clean();
 	}
 
-	ReactExperiment.prototype = new app.experiment.BasicExperiment();
-	return new ReactExperiment();
+	ReactExperiment.prototype = new BasicExperiment();
+	reactExperiment = new ReactExperiment();
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = reactExperiment;
+
+	} else if (window.app) {
+		window.app.experiment.framework.react = reactExperiment;
+	
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

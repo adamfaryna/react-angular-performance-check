@@ -1,4 +1,4 @@
-app.experiment.BasicExperiment = (function () {
+(function () {
 	function BasicExperiment() {
 		this.raports = {
 			createOperations: [],
@@ -25,5 +25,13 @@ app.experiment.BasicExperiment = (function () {
 		};
 	};
 
-	return BasicExperiment;
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = BasicExperiment;
+
+	} else if (window.app) {
+		window.app.experiment.BasicExperiment = BasicExperiment
+		
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

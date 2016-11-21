@@ -1,7 +1,28 @@
-app.experiment.framework.angular = (function () {
+(function () {
 	var name = 'Angular';
 	var rootElementId = '.angular-app';
-	var common = app.common;
+
+	var app,
+		common,
+		BasicExperiment,
+		Record,
+		TestTimePair;
+
+	if (typeof require === 'undefined') {
+		app = window.app;
+		common = window.app.common;
+		BasicExperiment = window.app.experiment.BasicExperiment;
+		Record = window.app.angular.Record;
+		TestTimePair = window.app.model.TestTimePair;
+
+	} else {
+		app = require('../../app');
+		common = require('../../commons');
+		BasicExperiment = require('../basicExperiment');
+		Record = require('../../angular/record.directive');
+		TestTimePair = require('../../model/testTimePair');
+	}
+	
 	var rootElement = common.getExperimentRootElement(rootElementId);
 	var contentElement = rootElement.querySelector('.content');
 	var testTimeElement = common.getTestTimeElement(rootElementId);
@@ -19,7 +40,7 @@ app.experiment.framework.angular = (function () {
 
 		angular
 			.module('angularApp', [])
-			.directive('myRecord', app.angular.Record)
+			.directive('myRecord', Record)
 			.controller('mainController', MainController);
 
 		MainController.$inject = ['$scope', '$timeout'];
@@ -123,7 +144,7 @@ app.experiment.framework.angular = (function () {
 							contentElement.querySelectorAll('.record').length === vm.data.records.length &&
 							recordId.innerText === vm.data.records[0].id.toString()) {
 						var endTime = Date.now();
-						var testTime = common.calculateTestTime(vm.data.startTime, endTime);
+						var testTime = common.calculateTestTime(new TestTimePair(vm.data.startTime, endTime));
 
 						if (vm.data.records.length > app.getData().length) {
 							rootElement.dispatchEvent(new CustomEvent(runAppendListener, {detail: {testTime: testTime}}));
@@ -187,6 +208,16 @@ app.experiment.framework.angular = (function () {
 		angular.bootstrap(rootElement, ['angularApp']);
 	}	
 
-	AngularExperiment.prototype = new app.experiment.BasicExperiment();
-	return new AngularExperiment();
+	AngularExperiment.prototype = new BasicExperiment();
+	var angularExperiment = new AngularExperiment();
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = angularExperiment;
+
+	} else if (window.app) {
+		window.app.experiment.framework.angular = angularExperiment;
+	
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

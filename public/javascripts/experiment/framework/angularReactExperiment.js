@@ -1,8 +1,25 @@
-app.experiment.framework.angularReact = (function () {
+ (function () {
 	var name = 'Angular & React';
 	var rootElementId = '.angular-react-app';
-	var common = app.common;
-	var ExperimentComponent = app.react.ExperimentComponent;
+
+	var app,
+		common,
+		ExperimentComponent,
+		BasicExperiment;
+
+	if (typeof require === 'undefined') {
+		app = window.app;
+		common = window.app.common;
+		ExperimentComponent = window.app.react.ExperimentComponent;
+		BasicExperiment = window.app.experiment.BasicExperiment;
+
+	} else {
+		app = require('../../app');
+		common = require('../../commons');
+		ExperimentComponent = require('../../react/experimentComponent');
+		BasicExperiment = require('../BasicExperiment');
+	}
+
 	var rootElement = common.getExperimentRootElement(rootElementId);
 	var collectionRootElement = common.getCollectionRootElement(rootElementId);
 	var testTimeElement = common.getTestTimeElement(rootElementId);
@@ -189,6 +206,16 @@ app.experiment.framework.angularReact = (function () {
 		angular.bootstrap(rootElement, ['angularReactApp']);
 	}
 
-	AngularReactExperiment.prototype = new app.experiment.BasicExperiment();
-	return new AngularReactExperiment();
+	AngularReactExperiment.prototype = new BasicExperiment();
+	var angularReactExperiment = new AngularReactExperiment();
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = angularReactExperiment;
+
+	} else if (window.app) {
+		window.app.experiment.framework.angularReact = angularReactExperiment;
+		
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

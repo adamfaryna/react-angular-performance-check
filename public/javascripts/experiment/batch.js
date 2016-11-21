@@ -1,16 +1,38 @@
-app.experiment.batch = (function () {
-	var common = app.common;
+(function () {
+	var app,
+		common,
+		commonDom,
+		progressBar;
+
+	if (typeof require === 'undefined') {
+		app = window.app;
+		common = window.app.common;
+		commonDom = window.app.common.dom;
+		progressBar = window.app.progressBar;
+
+	} else {
+		app = require('../app');
+		common = require('../commons');
+		commonDom = require('../commonsDom');
+		progressBar = require('../progressBar');
+	}
+
 	var form = document.getElementById('form');
 	var raport = document.getElementById('raport');
 	var raportBodyCreate = raport.querySelector('#createRaportTable tbody');
 	var raportBodyAppend = raport.querySelector('#appendRaportTable tbody');
 	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
-	var experimentFrameworks = app.experiment.framework;
+	var experimentFrameworks = typeof require === 'undefined' ? window.app.experiment.framework : [
+		require('framework/angularExperiment'),
+		require('framework/angularReactExperiment'),
+		require('framework/reactExperiment'),
+		require('framework/vanillaExperiment')
+	];
 
 	function cleanReport() {
-		return new Promise(function (resolve) {
-			common.dom.removeAllChilds(raportBodyCreate);
-			common.dom.removeAllChilds(raportBodyAppend);
+		return new Promise(function(resolve) {
+			commonDom.removeAllChilds(raportBodyCreate);
+			commonDom.removeAllChilds(raportBodyAppend);
 
 			for (var key in experimentFrameworks) {
 				if (experimentFrameworks.hasOwnProperty(key)) {
@@ -23,12 +45,12 @@ app.experiment.batch = (function () {
 		});
 	}
 
-	function performExperiments() {
+	function run() {
 		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : app.defaults.iterations;
 
 		var promise = cleanReport()
 			.then(showReport)
-			.then(app.showProgressBar)
+			.then(app.show)
 			.then(app.prepareBaseDataSet);
 
 		for (var key in experimentFrameworks) {
@@ -48,7 +70,7 @@ app.experiment.batch = (function () {
 			}
 		}
 
-		return promise.then(app.hideProgressBar);
+		return promise.then(progressBar.hide);
 	}
 	
 	function printRaport(experiment, raportBody) {
@@ -93,14 +115,23 @@ app.experiment.batch = (function () {
 	}
 
 	function showReport() {
-		return new Promise(function (resolve) {
-			common.dom.show(raport);
+		return new Promise(function(resolve) {
+			commonDom.show(raport);
 			setTimeout(resolve, 50);
 		});
 	}
 
-	return {
-		run: performExperiments,
-		cleanReport: cleanReport
+	var batch = {
+		run: run
 	};
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = batch;
+
+	} else if (window.app) {
+		window.app.experiment.batch = batch;
+		
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

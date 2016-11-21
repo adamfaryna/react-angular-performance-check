@@ -1,15 +1,20 @@
 (function () {
-	var common = app.common;
-	var testsControls = document.getElementById('testsControls');
-	var progressBar = document.getElementById('progressBar');
-	var form = document.getElementById('form');
-	var log = testsControls.querySelector('.log');
-	var dataRecords = [];
+	var app,
+		common;
 
-	var defaults = {
-		iterations: 20,
-		dataSetSize: 200
-	};
+	if (typeof require === 'undefined') {
+		app = window.app;
+		common = window.app.common;
+
+	} else {
+		app = require('./app');
+		common = require('./commons');
+	}
+
+	var testsControls = document.getElementById('testsControls');
+	var log = testsControls.querySelector('.log');
+	var form = document.getElementById('form');
+	var dataRecords = [];
 
 	var nameIndex = 0;
 	var surnameIndex = 0;
@@ -39,7 +44,7 @@
 
 	function genDataSet() {
 		var dataSetSize = form.getElementsByTagName('input').namedItem('dataSetSize');
-		var dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : defaults.dataSetSize;
+		var dataSetSizeVal = dataSetSize.value ? parseInt(dataSetSize.value) : app.defaults.dataSetSize;
 		var data = [];
 
 		for (var i = 0; i !== dataSetSizeVal; i++) {
@@ -57,25 +62,19 @@
 		});
 	}
 
-	function showProgressBar() {
-		return new Promise(function (resolve) {
-			common.dom.show(progressBar);
-			setTimeout(resolve, 100);
-		});
-	}
-
-	function hideProgressBar() {
-		return new Promise(function (resolve) {
-			common.dom.hide(progressBar);
-			setTimeout(resolve, 100);
-		});
-	}
-
 	prepareBaseDataSet();
 
 	app.getData = getData;
 	app.genDataSet = genDataSet;
 	app.prepareBaseDataSet = prepareBaseDataSet;
-	app.showProgressBar = showProgressBar;
-	app.hideProgressBar = hideProgressBar;
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = app;
+		
+	} else if (window.app) {
+		window.app = app;
+
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();

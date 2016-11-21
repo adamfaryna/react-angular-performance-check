@@ -1,5 +1,5 @@
-app.angular.Record = (function () {
-	return function() {
+(function () {
+	var Record = function() {
 		return {
 			restrict: 'E',
 			replace: true,
@@ -9,4 +9,14 @@ app.angular.Record = (function () {
 			}
 		};
 	};
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = Record;
+
+	} else if (window.app) {
+		window.app.angular.Record = Record;
+	
+	} else {
+		throw new Error('No application context nor modules found!');
+	}
 })();
