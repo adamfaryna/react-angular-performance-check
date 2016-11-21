@@ -73,7 +73,6 @@
 
 	prepareBaseDataSet();
 
-
 	app.getData = getData;
 	app.genDataSet = genDataSet;
 	app.prepareBaseDataSet = prepareBaseDataSet;
