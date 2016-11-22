@@ -11,8 +11,8 @@
     "start": "nodemon main.js",
     "debug": "nodemon --debug-brk main.js",
     "dist": "pm2 start main.js",
-    "test": "mocha test",
-    "test-debug": "mocha --debug-brk test",
+    "test": "mocha --recursive test",
+    "test-debug": "mocha --debug-brk --recursive test",
     "postinstall": "bower install",
     "lint": "jshint public/javascripts/**/*.js *.js bin/*"
   },
@@ -31,14 +31,19 @@
     "pug": "^2.0.0-beta6",
     "serve-favicon": "^2.3.2",
     "serve-static": "^1.11.1",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "angular": "^1.5.8"
   },
   "devDependencies": {
+    "angular": "^1.5.8",
+    "angular-mocks": "^1.5.8",
     "chai": "^3.5.0",
     "jsdom": "9.8.3",
     "jsdom-global": "2.1.0",
     "jshint": "^2.9.4",
     "mocha": "^3.1.2",
-    "mocha-jsdom": "^1.1.0"
+    "mocha-jsdom": "^1.1.0",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   }
 }
