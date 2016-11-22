@@ -6,7 +6,6 @@ const common = require('../public/javascripts/commons');
 
 jsdom(pug.renderFile('views/index.pug'));
 
-require('../public/javascripts/index');
 const TestTimePair = require('../public/javascripts/model/testTimePair');
 const vanillaExperiment = require('../public/javascripts/experiment/framework/vanillaExperiment');
 
@@ -15,7 +14,9 @@ describe('Commons', () => {
 		const errorMessage = 'Start time and end time has to be provided!';
 
 		it('should return correct difference between two timestamps', () => {
-			expect(common.calculateTestTime(new TestTimePair(Date.now() - 1000, Date.now()))).to.be.equal(1000);
+			const now = Date.now();
+			const later = now + 1000;
+			expect(common.calculateTestTime(new TestTimePair(now, later))).to.be.equal(1000);
 		});
 
 		it('should throw an error when testTime is not provided', () => {
