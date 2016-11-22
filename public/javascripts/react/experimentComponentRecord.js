@@ -1,4 +1,6 @@
 (function () {
+	var React = window.React;
+
 	var ExperimentComponentRecord = React.createClass({
 		shouldComponentUpdate: function(nextProps, nextState) {
 			if (nextProps) {

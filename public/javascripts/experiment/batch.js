@@ -23,10 +23,10 @@
 	var raportBodyAppend = raport.querySelector('#appendRaportTable tbody');
 	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
 	var experimentFrameworks = typeof require === 'undefined' ? window.app.experiment.framework : [
-		require('framework/angularExperiment'),
-		require('framework/angularReactExperiment'),
-		require('framework/reactExperiment'),
-		require('framework/vanillaExperiment')
+		require('./framework/angularExperiment'),
+		require('./framework/angularReactExperiment'),
+		require('./framework/reactExperiment'),
+		require('./framework/vanillaExperiment')
 	];
 
 	function cleanReport() {

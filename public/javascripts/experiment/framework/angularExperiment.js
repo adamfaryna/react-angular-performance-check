@@ -8,6 +8,8 @@
 		Record,
 		TestTimePair;
 
+	var angular = window.angular;
+
 	if (typeof require === 'undefined') {
 		app = window.app;
 		common = window.app.common;
@@ -45,12 +47,12 @@
 
 		MainController.$inject = ['$scope', '$timeout'];
 		
-		this.runCreate = function (saveRaport) {
+		this.runCreate = function runCreate(saveRaport) {
 			return function () {
 				saveRaport = saveRaport || true;
 
-				return new Promise(function (resolve) {
-					var eventHandler = function (e) {
+				return new Promise(function(resolve) {
+					var eventHandler = function(e) {
 						rootElement.removeEventListener(runCreateListener, eventHandler);
 						e.preventDefault();
 
@@ -72,12 +74,12 @@
 			};
 		};
 
-		this.runAppend = function (saveRaport) {
-			return function () {
+		this.runAppend = function runAppend(saveRaport) {
+			return function() {
 				saveRaport = saveRaport || true;
 
-				return new Promise(function (resolve) {
-					var eventHandler = function (e) {
+				return new Promise(function(resolve) {
+					var eventHandler = function(e) {
 						rootElement.removeEventListener(runAppendListener, eventHandler);
 						e.preventDefault();
 
@@ -99,9 +101,9 @@
 			};
 		};
 
-		this.clean = function () {
-			return new Promise(function (resolve) {
-				var eventHandler = function (e) {
+		this.clean = function clean() {
+			return new Promise(function(resolve) {
+				var eventHandler = function(e) {
 					rootElement.removeEventListener(cleanListener, eventHandler);
 					e.preventDefault();
 					resolve();
@@ -123,40 +125,55 @@
 				endTime: null
 			};
 
-			$scope.$on('runCreate', function () {
+			$scope.$on('runCreate', function() {
 				vm.runCreate(true);
 			});
 
-			$scope.$on('runAppend', function () {
+			$scope.$on('runAppend', function() {
 				vm.runAppend();
 			});
 
-			$scope.$on('clean', function () {
+			$scope.$on('clean', function() {
 				vm.clean();
 			});
 
-			vm.$doCheck = function () {
+			vm.$doCheck = function() {
 				// check if child components are fully initiated
 				if (isRunning) {
-					var recordId = contentElement.querySelector('.record .record-id span');
+					if (isViewFullyRendered()) {
+						var testTime = common.calculateTestTime(new TestTimePair(vm.data.startTime, Date.now()));
 
-					if (recordId &&
-							contentElement.querySelectorAll('.record').length === vm.data.records.length &&
-							recordId.innerText === vm.data.records[0].id.toString()) {
-						var endTime = Date.now();
-						var testTime = common.calculateTestTime(new TestTimePair(vm.data.startTime, endTime));
+						if (isRunAppendRunning()) {
+							emitRunAppendFinishedEvent(testTime);
 
-						if (vm.data.records.length > app.getData().length) {
-							rootElement.dispatchEvent(new CustomEvent(runAppendListener, {detail: {testTime: testTime}}));
-
-						} else {
-							rootElement.dispatchEvent(new CustomEvent(runCreateListener, {detail: {testTime: testTime}}));
+						} else { // runCreate is running
+							emitRunCreateFinishedEvent(testTime);
 						}
 					}
 				}
 			};
 
-			vm.clean = function () {
+			function emitRunAppendFinishedEvent(testTime) {
+				rootElement.dispatchEvent(new CustomEvent(runAppendListener, {detail: {testTime: testTime}}));
+			}
+
+			function emitRunCreateFinishedEvent(testTime) {
+				rootElement.dispatchEvent(new CustomEvent(runCreateListener, {detail: {testTime: testTime}}));
+			}
+
+			function isRunAppendRunning() {
+				return vm.data.records.length > app.getData().length;
+			}
+
+			function isViewFullyRendered() {
+				var recordId = contentElement.querySelector('.record .record-id span');
+
+				return recordId &&
+							contentElement.querySelectorAll('.record').length === vm.data.records.length &&
+							recordId.innerText === vm.data.records[0].id.toString();
+			}
+
+			vm.clean = function clean() {
 				return new Promise(function (resolve) {
 					$timeout(function () {
 						vm.data.startTime = null;
@@ -169,10 +186,10 @@
 				});
 			};
 
-			vm.runCreate = function (runningState) {
+			vm.runCreate = function runCreate(runningState) {
 				return vm.clean()
-					.then(function () {
-						return new Promise(function (resolve) {
+					.then(function() {
+						return new Promise(function(resolve) {
 							$timeout(function () {
 								isRunning = runningState;
 								vm.data.startTime = Date.now();
@@ -184,9 +201,9 @@
 				});
 			};
 
-			vm.runAppend = function () {
-				return new Promise(function (resolve) {
-					var eventHandler = function (e) {
+			vm.runAppend = function runAppend() {
+				return new Promise(function(resolve) {
+					var eventHandler = function(e) {
 						rootElement.removeEventListener(runCreateHelpListener, eventHandler);
 						e.preventDefault();
 

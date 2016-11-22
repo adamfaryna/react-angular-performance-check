@@ -7,6 +7,10 @@
 		ExperimentComponent,
 		BasicExperiment;
 
+	var React = window.React;
+	var ReactDOM = window.ReactDOM;
+	var angular = window.angular;
+
 	if (typeof require === 'undefined') {
 		app = window.app;
 		common = window.app.common;

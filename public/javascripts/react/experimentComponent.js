@@ -4,6 +4,8 @@
 		ExperimentComponentRecord,
 		TestTimePair;
 
+	var React = window.React;
+
 	if (typeof require === 'undefined') {
 		app = window.app;
 		common = window.app.common;
