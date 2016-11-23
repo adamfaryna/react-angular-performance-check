@@ -14,6 +14,11 @@
 	};
 
 	if (typeof module !== 'undefined' && module.exports) {
+		app.defaults = {
+			iterations: 2,
+			dataSetSize: 10
+		};
+
 		module.exports = app;
 
 	} else if (window) {

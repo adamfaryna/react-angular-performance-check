@@ -19,8 +19,8 @@
 
 	var form = document.getElementById('form');
 	var raport = document.getElementById('raport');
-	var raportBodyCreate = raport.querySelector('#createRaportTable tbody');
-	var raportBodyAppend = raport.querySelector('#appendRaportTable tbody');
+	var raportBodyCreate = raport.querySelector('#create_raport_table tbody');
+	var raportBodyAppend = raport.querySelector('#append_raport_table tbody');
 	var iterationsNumber = form.getElementsByTagName('input').namedItem('iterationsNumber');
 	var experimentFrameworks = typeof require === 'undefined' ? window.app.experiment.framework : [
 		require('./framework/angularExperiment'),
@@ -48,9 +48,9 @@
 	function run() {
 		var iterationsNumberVal = iterationsNumber.value ? parseInt(iterationsNumber.value) : app.defaults.iterations;
 
-		var promise = cleanReport()
+		var promise = progressBar.show()
+			.then(cleanReport)
 			.then(showReport)
-			.then(app.show)
 			.then(app.prepareBaseDataSet);
 
 		for (var key in experimentFrameworks) {
@@ -79,10 +79,10 @@
 				var raportRef;
 				var raportElement = raportBody.parentElement.parentElement;
 
-				if (raportElement.id === 'createRaportTable') {
+				if (raportElement.id === 'create_raport_table') {
 					raportRef = experiment.raports.createOperations;
 
-				} else if (raportElement.id === 'appendRaportTable') {
+				} else if (raportElement.id === 'append_raport_table') {
 					raportRef = experiment.raports.appendOperations;
 
 				} else {
@@ -122,7 +122,10 @@
 	}
 
 	var batch = {
-		run: run
+		run: run,
+		showReport: showReport,
+		printRaport: printRaport,
+		cleanReport: cleanReport
 	};
 
 	if (typeof module !== 'undefined' && module.exports) {

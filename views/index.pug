@@ -7,7 +7,7 @@ block header
 block controls
 	.row
 		.columns.three &nbsp;
-		#testsControls.tests-controls.columns.six
+		#tests_controls.tests-controls.columns.six
 			form#form(action="#" onsubmit="return false;")
 				div
 					label(for="dataSetSize") Data set size:
@@ -31,7 +31,7 @@ block sample
 		.columns.four &nbsp;
 
 block experiments
-	#experimentsContainer.container.row
+	#experiments_container.container.row
 		+experiment('vanilla-app', 'Vanilla',
 			'app.experiment.framework.vanilla.runCreate(false)()',
 			'app.experiment.framework.vanilla.runAppend(false)()'
@@ -66,7 +66,7 @@ block raport
 					th Average Time
 				tbody
 
-		#appendRaportTable
+		#append_raport_table
 			.header
 				h3 Raport for Append Elements
 			table

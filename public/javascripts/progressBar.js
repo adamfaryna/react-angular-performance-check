@@ -2,7 +2,7 @@
 	var commonDom = typeof require === 'undefined' ? app.common.dom : require('./commonsDom');
 
 	function ProgressBar() {
-		this.element = document.getElementById('progressBar');
+		this.element = document.getElementById('progress_bar');
 	}
 
 	ProgressBar.prototype.show = function() {

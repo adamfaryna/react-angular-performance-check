@@ -4,6 +4,8 @@ const expect = require('chai').expect;
 
 jsdom(pug.renderFile('views/index.pug'));
 
+const document = global.document;
+
 describe('index view', () => {
 	it('should contain proper header');
 	it('should contain proper sample record block');

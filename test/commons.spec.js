@@ -53,7 +53,7 @@ describe('Commons', () => {
 	describe('has Web API', () => {
 		describe('getExperimentsRootElement method', () => {
 			it('should return root element reference of all experiments', () => {
-				expect(common.getExperimentsRootElement().id).to.be.equal('experimentsContainer');
+				expect(common.getExperimentsRootElement().id).to.be.equal('experiments_container');
 			});
 		});
 

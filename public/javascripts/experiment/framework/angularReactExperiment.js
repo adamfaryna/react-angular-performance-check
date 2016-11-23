@@ -105,7 +105,8 @@
 
 		angular
 			.module('angularReactApp', [])
-			.controller('mainController', MainController);
+			.controller('mainController', MainController)
+			.config(function($sceProvider) { $sceProvider.enabled(false); });
 
 		MainController.$inject = ['$scope', '$timeout'];
 		

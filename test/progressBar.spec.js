@@ -14,11 +14,11 @@ const progressBar = require('../public/javascripts/progressBar');
 describe('progressBar', () => {
 	it('should show up', () => {
 		progressBar.show();
-		expect(global.document.getElementById('progressBar').classList.contains('hidden')).to.be.false;
+		expect(global.document.getElementById('progress_bar').classList.contains('hidden')).to.be.false;
 	});
 
 	it('should hide', () => {
 		progressBar.hide();
-		expect(global.document.getElementById('progressBar').classList.contains('hidden')).to.be.true;
+		expect(global.document.getElementById('progress_bar').classList.contains('hidden')).to.be.true;
 	});
 });

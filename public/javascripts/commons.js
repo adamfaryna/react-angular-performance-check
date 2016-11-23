@@ -34,7 +34,7 @@
 			}, Number.MIN_VALUE);
 		},
 		getExperimentsRootElement: function() {
-			return document.getElementById('experimentsContainer');
+			return document.getElementById('experiments_container');
 		},
 		getExperimentRootElement: function(rootId) {
 			if (!rootId) {

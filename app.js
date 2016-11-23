@@ -15,17 +15,19 @@ app.set('view engine', 'pug');
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(stylus.middleware({
-	src: path.join(__dirname, 'public/stylesheets'),
+	src: path.join(__dirname, 'views/stylesheets'),
+	dest: path.join(__dirname, 'public/stylesheets'),
 	compile: function(str, path) {
 		return stylus(str)
-			.use(autoprefixer({browsers: 'last 2 versions', cascade: false}))
-			.set('filename', path);
+			.set('filename', path)
+			.set('compress', true)
+			.use(autoprefixer({browsers: 'last 2 versions', cascade: false}));
 	}
 }));
 
 app.use('/public', function(req, res, next) {
   if (env !== 'development') {
-    var result = req.url.match(/.*\.(maps|pug|styl)$/);
+    var result = req.url.match(/.*\.(maps)$/);
 
     if (result) {
       return res.status(403).end('403 Forbidden');
@@ -41,7 +43,8 @@ app.get('/', function(req, res, next) {
 	res.render('index');
 });
 
-app.get('/partials/:name', function(req, res, next) {
+app.get('/partials/:name', function(req, res) {
+	console.log('req: ' + req.params.name);
 	res.render('partials/' + req.params.name);
 });
 

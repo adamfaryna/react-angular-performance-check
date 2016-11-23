@@ -11,7 +11,7 @@
 		common = require('./commons');
 	}
 
-	var testsControls = document.getElementById('testsControls');
+	var testsControls = document.getElementById('tests_controls');
 	var log = testsControls.querySelector('.log');
 	var form = document.getElementById('form');
 	var dataRecords = [];

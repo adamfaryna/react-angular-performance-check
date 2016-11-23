@@ -4,8 +4,6 @@ const expect = require('chai').expect;
 
 jsdom(pug.renderFile('views/index.pug'));
 
-
-
 // const angular = require('angular-mocks');
 const angularReactExperiment = require('../../../public/javascripts/experiment/framework/angularReactExperiment');
 

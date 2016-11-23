@@ -43,7 +43,8 @@
 		angular
 			.module('angularApp', [])
 			.directive('myRecord', Record)
-			.controller('mainController', MainController);
+			.controller('mainController', MainController)
+			.config(function($sceProvider) { $sceProvider.enabled(false); });
 
 		MainController.$inject = ['$scope', '$timeout'];
 		

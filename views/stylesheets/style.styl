@@ -1,0 +1,72 @@
+@require 'constans.styl'
+@require 'colors.styl'
+// @require 'reset.styl'
+
+/*
+ * Resets and overrides.
+ */
+*
+	letter-spacing: .1rem
+
+.container
+	width: 100%
+
+.row
+	margin: 10px 0
+	
+	.header h2
+		text-align: center
+
+tr.label
+	font-weight: bold
+
+/*
+ * Links & types.
+ */
+a
+	color linkColor
+
+h1
+	font-size: 4rem
+
+h2
+	font-size: 3rem
+
+div
+	border-radius basicBorderRadius
+
+/*
+ * Layout.
+ */
+#header
+	text-align: center
+	width: 100%
+	
+	div
+		margin: 10px
+
+#tests_controls
+	border: 1px solid
+	@require 'components/testsControls.styl'	
+
+#experiments_container
+	margin-top: 20px
+	@require 'components/experimentBlock.styl'
+
+#footer
+	text-align: center
+	margin-top: 15px
+
+@require 'components/progressBar.styl'
+@require 'components/raportTable.styl'
+
+/*
+ * Callout boxes.
+ */
+@require 'components/record.styl'
+
+/*
+ * Misc.
+ */
+.hidden
+	display: none

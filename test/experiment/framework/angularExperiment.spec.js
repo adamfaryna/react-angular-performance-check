@@ -29,9 +29,9 @@ describe('angularExperiment', () => {
 	})
 
 	describe('MainController', () => {
-		let scope, controller;
+		// let scope, controller;
 
-		beforeEach(angular.module('angularApp'));
+		// beforeEach(angular.module('angularApp'));
 		// beforeEach(inject())
 		
 		describe('clean method', () => {
