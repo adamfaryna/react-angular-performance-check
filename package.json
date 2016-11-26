@@ -8,19 +8,21 @@
     "node": "6.3.1"
   },
   "scripts": {
-    "start": "nodemon main.js",
-    "debug": "nodemon --debug-brk main.js",
+    "start": "nodemon bin/www",
+    "debug": "nodemon --debug-brk bin/www",
     "dist": "pm2 start main.js",
     "test": "mocha --recursive test",
     "test-debug": "mocha --debug-brk --recursive test",
     "postinstall": "bower install",
-    "lint": "jshint public/javascripts/**/*.js *.js bin/*"
+    "lint": "jshint public/javascripts/**/*.js *.js bin/*",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/adamfaryna/react-angular-performance-check.git"
   },
   "dependencies": {
+    "angular": "^1.5.8",
     "autoprefixer-stylus": "^0.11.0",
     "bower": "^1.8.0",
     "express": "^4.14.0",
@@ -31,19 +33,33 @@
     "pug": "^2.0.0-beta6",
     "serve-favicon": "^2.3.2",
     "serve-static": "^1.11.1",
+    "skeleton-css": "^2.0.4",
     "stylus": "^0.54.5",
-    "angular": "^1.5.8"
+    "webpack": "^1.13.3"
   },
   "devDependencies": {
     "angular": "^1.5.8",
     "angular-mocks": "^1.5.8",
+    "autoprefixer-loader": "^3.2.0",
     "chai": "^3.5.0",
+    "css-loader": "^0.26.0",
+    "debug-webpack-plugin": "^0.1.0",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "^2.24.1",
     "jsdom": "9.8.3",
     "jsdom-global": "2.1.0",
     "jshint": "^2.9.4",
+    "jshint-loader": "^0.8.3",
     "mocha": "^3.1.2",
     "mocha-jsdom": "^1.1.0",
+    "pug-loader": "^2.3.0",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "style-loader": "^0.13.1",
+    "stylus-loader": "^2.3.1",
+    "url-loader": "^0.5.7",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.2"
   }
 }

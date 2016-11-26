@@ -1,0 +1,17 @@
+extends basicLayout
+
+block content
+	.container
+		block header
+		block controls
+		block sample
+		block experiments
+		block raport
+		block footer
+
+	#progress_bar.hidden
+		.shadow-pane
+			.box
+				img(src=require('../assets/images/loading-icon.gif'))
+				div
+					span Please wait...

@@ -1,0 +1,68 @@
+extends layout
+
+block header
+	#header.row.column.one
+		h1 Javascript Frameworks Performance Test 1.0
+
+block controls
+	.row
+		.columns.three &nbsp;
+		#tests_controls.tests-controls.columns.six
+			form#form(action="#" onsubmit="return false;")
+				div
+					label(for="dataSetSize") Data set size:
+					input#dataSetSize(type="number" placeholder="Default 200")
+				div
+					label(for="iterationsNumber") Number of tests:
+					input#iterationsNumber(type="number" placeholder="Default 20")
+				.log
+				.buttons
+					button#create_data_set_button.button-primary(type='submit') Create Data Set
+					button#run_experiments_button.button-primary(type='submit') Do Experiments!
+		.columns.three &nbsp;
+
+block sample
+	#examplePreview.row
+		.columns.four &nbsp;
+		.columns.four
+			.header
+				h2 Sample record
+			+record()
+		.columns.four &nbsp;
+
+block experiments
+	#experiments_container.container.row
+		+experiment('vanilla-app', 'Vanilla')
+		+experiment('angular-app', 'Angular')(ng-controller='mainController as ctrl')
+			my-record(data="{{record}}" ng-repeat="record in ctrl.data.records track by record.id")
+		+experiment('react-app', 'React')
+		+experiment('angular-react-app', 'Angular & React')(ng-controller='mainController as ctrl')
+
+block raport
+	#raport.tests-report.row.hidden
+		#createRaportTable
+			.header
+				h3 Raport for Create Elements
+			table
+				thead
+					th Name
+					th Minimum Time
+					th Maximum Time
+					th Average Time
+				tbody
+
+		#append_raport_table
+			.header
+				h3 Raport for Append Elements
+			table
+				thead
+					th Name
+					th Minimum Time
+					th Maximum Time
+					th Average Time
+				tbody
+
+block footer
+	footer#footer.row
+		div.columns.twelve
+			a(href="http://appdy.net") Made by Appdy.net
