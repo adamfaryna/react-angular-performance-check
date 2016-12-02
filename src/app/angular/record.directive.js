@@ -1,8 +1,11 @@
-module.exports = function() {
+var template = require('../../views/partials/record.directive.template.pug');
+
+
+module.exports = function () {
 	return {
 		restrict: 'E',
 		replace: true,
-		templateUrl: require('ng-cache!html!pug!../../views/partials/record.directive.pug'),
+		template: template,
 		link: function (scope) {
 			scope.data = {};
 		}

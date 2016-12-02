@@ -1,7 +1,7 @@
 mixin record(name = 'Name', surname = 'Surname', id = 'ID', description = 'Description')
 	.record
 		.record-avatar
-			img(src=require('../assets/images/avatar.png'))
+			img(src='/public/images/avatar.png')
 		.record-data
 			.record-name
 				span #{name}&nbsp;
@@ -12,11 +12,11 @@ mixin record(name = 'Name', surname = 'Surname', id = 'ID', description = 'Descr
 				span #{description}
 			.record-sm
 				a(href='https://www.facebook.com/appdy.net')
-					img(src=require('../assets/images/facebook.png'))
+					img(src='/public/images/facebook.png')
 				a(href='https://twitter.com/AppdyApp')
-					img(src=require('../assets/images/twitter.png'))
+					img(src='/public/images/twitter.png')
 				a(href='https://linkedin.com')
-					img(src=require('../assets/images/linkedin.png'))
+					img(src='/public/images/linkedin.png')
 
 mixin experiment(experimentClass, name)
 	div(class=experimentClass + ' experiment columns three')&attributes(attributes)
