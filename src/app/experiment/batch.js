@@ -56,7 +56,7 @@ function run() {
 		}
 	}
 
-	return promise.then(progressBar.hide);
+	return promise.then(() => { progressBar.hide(); });
 }
 
 function printRaport(experiment, raportBody) {

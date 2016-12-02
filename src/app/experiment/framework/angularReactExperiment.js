@@ -1,7 +1,7 @@
 var name = 'Angular & React';
 var rootElementId = '.angular-react-app';
 
-var	app = require('../../app');
+var basic = require('../../basic');
 var	common = require('../../commons');
 var	ExperimentComponent = require('../../react/experimentComponent');
 var	BasicExperiment = require('../basicExperiment');
@@ -161,7 +161,7 @@ function AngularReactExperiment() {
 
 					$timeout(function () {
 						$scope.data.startTime = Date.now();
-						$scope.data.records = app.getData();
+						$scope.data.records = basic.getData();
 					});
 				});
 		};
@@ -173,7 +173,7 @@ function AngularReactExperiment() {
 					e.preventDefault();
 
 					$timeout(function () {
-						var dataSet = $scope.data.records.concat(app.genDataSet());
+						var dataSet = $scope.data.records.concat(basic.genDataSet());
 
 						var resultEventHandler = function (e) {
 							rootElement.removeEventListener(resultListener, resultEventHandler);
