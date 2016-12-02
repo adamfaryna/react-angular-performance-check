@@ -1,30 +1,42 @@
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const webpack = require('webpack');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+// var stylus = require('stylus');
+// var autoprefixer = require('autoprefixer-stylus');
 
-const app = express();
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const config = require('./webpack.config.js');
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-
 const isDeveloping = process.env.NODE_ENV !== 'production';
 
+// uncomment after placing your favicon in /public
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+// app.use(stylus.middleware({
+// 	src: path.join(__dirname, 'views/stylesheets'),
+// 	dest: path.join(__dirname, 'public'),
+// 	compile: function(str, path) {
+// 		return stylus(str)
+// 			.set('filename', path)
+// 			.set('compress', true)
+// 			.use(autoprefixer({browsers: 'last 2 versions', cascade: false}));
+// 	}
+// }));
+
 if (isDeveloping) {
-  const webpackMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
-
-  const config = require('./webpack.dev.config.js');
-
-  // app.set('view options', { debug: true });
-
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
-    // contentBase: 'src',
+    contentBase: 'src',
     stats: {
       colors: true,
       hash: false,
@@ -37,20 +49,48 @@ if (isDeveloping) {
 
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
-  app.use('/public/images', express.static(path.join(__dirname, '/src/assets/images')));
+  app.get('/', function response(req, res) {
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'build/index.html')));
+    res.end();
+  });
   
 } else {
-  const config = require('./webpack.prod.config.js');
-
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/build'));
   app.get('/', function response(req, res) {
     res.sendFile(path.join(__dirname, 'build/index.html'));
   });
 }
 
+
+
+
+
+// app.use('/public', function(req, res, next) {
+//   if (env !== 'development') {
+//     var result = req.url.match(/.*\.(maps)$/);
+
+//     if (result) {
+//       return res.status(403).end('403 Forbidden');
+//     }
+//   }
+  
+//   next();
+// });
+
+app.use(express.static(path.join(__dirname, '/build')));
+
+// app.get('/', function(req, res, next) {
+// 	res.render('index');
+// });
+
+// app.get('/partials/:name', function(req, res) {
+// 	console.log('req: ' + req.params.name);
+// 	res.render('partials/' + req.params.name);
+// });
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  const err = new Error('Not Found');
+  var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
