@@ -49,48 +49,20 @@ if (isDeveloping) {
 
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
-  app.get('/', function response(req, res) {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'build/index.html')));
-    res.end();
-  });
+  app.use('/public/images', express.static(path.join(__dirname, '/src/assets/images')));
   
 } else {
-  app.use(express.static(__dirname + '/build'));
+  const config = require('./webpack.prod.config.js');
+
+  app.use(express.static(__dirname + '/public'));
   app.get('/', function response(req, res) {
     res.sendFile(path.join(__dirname, 'build/index.html'));
   });
 }
 
-
-
-
-
-// app.use('/public', function(req, res, next) {
-//   if (env !== 'development') {
-//     var result = req.url.match(/.*\.(maps)$/);
-
-//     if (result) {
-//       return res.status(403).end('403 Forbidden');
-//     }
-//   }
-  
-//   next();
-// });
-
-app.use(express.static(path.join(__dirname, '/build')));
-
-// app.get('/', function(req, res, next) {
-// 	res.render('index');
-// });
-
-// app.get('/partials/:name', function(req, res) {
-// 	console.log('req: ' + req.params.name);
-// 	res.render('partials/' + req.params.name);
-// });
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
