@@ -8,12 +8,11 @@
     "node": "6.3.1"
   },
   "scripts": {
-    "start": "nodemon bin/www",
+    "start": "DEBUG=express:* nodemon bin/www",
     "debug": "nodemon --debug-brk bin/www",
-    "dist": "pm2 start main.js",
+    "dist": "webpack -p && pm2 start main.js",
     "test": "mocha --recursive test",
     "test-debug": "mocha --debug-brk --recursive test",
-    "postinstall": "bower install",
     "lint": "jshint public/javascripts/**/*.js *.js bin/*",
     "webpack": "webpack"
   },
