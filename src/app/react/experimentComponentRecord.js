@@ -12,7 +12,7 @@ var ExperimentComponentRecord = React.createClass({
 	render: function () {
 		return React.createElement('div', {className: 'record'},
 			React.createElement('div', {className: 'record-avatar'},
-				React.createElement('img', {src: 'images/avatar.png'})
+				React.createElement('img', {src: require('../../assets/images/avatar.png')})
 			),
 			React.createElement('div', {className: 'record-data'},
 				React.createElement('div', {className: 'record-name'},
@@ -27,13 +27,13 @@ var ExperimentComponentRecord = React.createClass({
 				),
 				React.createElement('div', {className: 'record-sm'}, 
 					React.createElement('a', {href: 'https://www.facebook.com/appdy.net'},
-						React.createElement('img', {src: 'images/facebook.png'})
+						React.createElement('img', {src: require('../../assets/images/facebook.png')})
 					),
 					React.createElement('a', {href: 'https://twitter.com/AppdyApp'},
-						React.createElement('img', {src: 'images/twitter.png'})
+						React.createElement('img', {src: require('../../assets/images/twitter.png')})
 					),
 					React.createElement('a', {href: 'https://linkedin.com'},
-						React.createElement('img', {src: 'images/linkedin.png'})
+						React.createElement('img', {src: require('../../assets/images/linkedin.png')})
 					)
 				)
 			)
