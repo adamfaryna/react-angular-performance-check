@@ -1,42 +1,30 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-// var stylus = require('stylus');
-// var autoprefixer = require('autoprefixer-stylus');
-
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
 const webpack = require('webpack');
-const webpackMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require('./webpack.config.js');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 
+app.use(logger('dev'));
+
 const isDeveloping = process.env.NODE_ENV !== 'production';
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-// app.use(stylus.middleware({
-// 	src: path.join(__dirname, 'views/stylesheets'),
-// 	dest: path.join(__dirname, 'public'),
-// 	compile: function(str, path) {
-// 		return stylus(str)
-// 			.set('filename', path)
-// 			.set('compress', true)
-// 			.use(autoprefixer({browsers: 'last 2 versions', cascade: false}));
-// 	}
-// }));
-
 if (isDeveloping) {
+  const webpackMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+
+  const config = require('./webpack.dev.config.js');
+
+  // app.set('view options', { debug: true });
+
   const compiler = webpack(config);
   const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
-    contentBase: 'src',
+    // contentBase: 'src',
     stats: {
       colors: true,
       hash: false,
